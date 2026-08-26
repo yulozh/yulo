@@ -120,5 +120,5 @@ show-delete-permanent=false
 mouse-back-button=true
 mouse-forward-button=true
 use-experimental-views=false
-click-policy='single'
+click-policy='double'
 show-create-link=true
