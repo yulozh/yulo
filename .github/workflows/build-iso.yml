@@ -37,12 +37,22 @@ jobs:
 
       - name: Extract squashfs from ISO
         run: |
-          # Extract only the squashfs file to save space
-          7z l ubuntu.iso | grep -i "filesystem.squashfs"
-          7z e ubuntu.iso -o. "casper/filesystem.squashfs" -y > /dev/null 2>&1 || \
-          7z e ubuntu.iso -o. "filesystem.squashfs" -y > /dev/null 2>&1 || true
+          set +e
+          # List ISO contents for debugging
+          7z l ubuntu.iso 2>/dev/null | grep -i squash
+          # Try extracting from casper/ first, then root
+          7z e ubuntu.iso -o. "casper/filesystem.squashfs" -y > /dev/null 2>&1
+          if [ ! -f filesystem.squashfs ]; then
+            7z e ubuntu.iso -o. "filesystem.squashfs" -y > /dev/null 2>&1
+          fi
+          if [ ! -f filesystem.squashfs ]; then
+            # Extract all and find it
+            7z x ubuntu.iso -oiso-tmp -y > /dev/null 2>&1
+            find iso-tmp -name "filesystem.squashfs" -exec cp {} . \;
+            rm -rf iso-tmp
+          fi
           ls -lh filesystem.squashfs
-          rm ubuntu.iso
+          rm -f ubuntu.iso
           df -h /
 
       - name: Extract squashfs
