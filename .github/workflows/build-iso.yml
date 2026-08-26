@@ -1,0 +1,160 @@
+name: Build yulo OS ISO
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'rootfs/**'
+      - '.github/workflows/build-iso.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/share/boost /usr/lib/jvm /opt/hostedtoolcache/CodeQL /sw /opt/pipx
+          sudo apt-get clean
+          sudo rm -rf /var/lib/apt/lists/*
+          df -h /
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y squashfs-tools xorriso p7zip-full rsync
+
+      - name: Download Ubuntu ISO
+        run: |
+          wget -q -O ubuntu.iso \
+            "https://releases.ubuntu.com/26.04/ubuntu-26.04-desktop-amd64.iso"
+          ls -lh ubuntu.iso
+
+      - name: Extract squashfs from ISO
+        run: |
+          # Extract only the squashfs file to save space
+          7z l ubuntu.iso | grep -i "filesystem.squashfs"
+          7z e ubuntu.iso -o. "casper/filesystem.squashfs" -y > /dev/null 2>&1 || \
+          7z e ubuntu.iso -o. "filesystem.squashfs" -y > /dev/null 2>&1 || true
+          ls -lh filesystem.squashfs
+          rm ubuntu.iso
+          df -h /
+
+      - name: Extract squashfs
+        run: |
+          sudo unsquashfs -d squashfs-root filesystem.squashfs
+          rm filesystem.squashfs
+          df -h /
+
+      - name: Merge yulo rootfs
+        run: |
+          sudo rsync -a rootfs/ squashfs-root/
+          sudo chmod -R a+rX squashfs-root/usr/share/themes/ squashfs-root/usr/share/icons/ squashfs-root/usr/share/backgrounds/ 2>/dev/null || true
+          sudo chmod +x squashfs-root/usr/lib/yulo/*.sh 2>/dev/null || true
+          # Compile dconf
+          sudo chroot squashfs-root dconf update 2>/dev/null || true
+          echo "yulo rootfs merged"
+          df -h /
+
+      - name: Repack squashfs
+        run: |
+          sudo mksquashfs squashfs-root filesystem.squashfs -comp xz -b 1M -noappend
+          sudo rm -rf squashfs-root
+          ls -lh filesystem.squashfs
+          df -h /
+
+      - name: Re-download and extract full ISO
+        run: |
+          wget -q -O ubuntu.iso \
+            "https://releases.ubuntu.com/26.04/ubuntu-26.04-desktop-amd64.iso"
+          mkdir iso-extract
+          7z x ubuntu.iso -oiso-extract -y > /dev/null 2>&1
+          chmod -R +w iso-extract
+          rm ubuntu.iso
+          # Replace squashfs
+          SQUASHFS=$(find iso-extract -name "filesystem.squashfs" | head -1)
+          echo "Replacing: $SQUASHFS"
+          rm -f "$SQUASHFS"
+          mv filesystem.squashfs "$SQUASHFS"
+          # Update manifest
+          MANIFEST=$(find iso-extract -name "filesystem.manifest" | head -1)
+          echo "Manifest: $MANIFEST"
+          df -h /
+          ls -lh iso-extract/
+
+      - name: Generate yulo ISO
+        run: |
+          EFI_IMG=""
+          if [ -f "iso-extract/boot/grub/efi.img" ]; then
+            EFI_IMG="iso-extract/boot/grub/efi.img"
+          elif [ -f "iso-extract/EFI/BOOT/efi.img" ]; then
+            EFI_IMG="iso-extract/EFI/BOOT/efi.img"
+          fi
+          echo "EFI: $EFI_IMG"
+          
+          # Find boot catalog
+          BOOT_CAT=""
+          if [ -f "iso-extract/boot.catalog" ]; then
+            BOOT_CAT="iso-extract/boot.catalog"
+          fi
+          
+          xorriso -as mkisofs \
+            -r -V "yulo 1.0" \
+            -J -joliet-long -l -iso-level 3 \
+            ${BOOT_CAT:+-c boot.catalog} \
+            -b boot/grub/i386-pc/eltorito.img \
+            -no-emul-boot -boot-load-size 4 -boot-info-table \
+            -eltorito-alt-boot \
+            -e boot/grub/efi.img \
+            -no-emul-boot \
+            -isohybrid-gpt-basdat \
+            -o yulo-1.0-desktop-amd64.iso \
+            iso-extract 2>&1 | tail -10
+          
+          rm -rf iso-extract
+          ls -lh yulo-1.0-desktop-amd64.iso
+          df -h /
+
+      - name: SHA256
+        run: |
+          sha256sum yulo-1.0-desktop-amd64.iso > yulo-1.0-desktop-amd64.iso.sha256
+          cat yulo-1.0-desktop-amd64.iso.sha256
+
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0
+          name: yulo OS 1.0
+          body: |
+            yulo OS 1.0 (Sakura) - 基于 Ubuntu 26.04 LTS 的定制系统
+            
+            ## 特性
+            - 樱花粉专业主题（亮色+暗色）
+            - Win11 式底部状态栏（半透明白/黑灰）
+            - 一键暗色模式切换（太阳/月亮）
+            - 4K 动态壁纸（无声音）
+            - Chromium 浏览器（已移除 Firefox）
+            - 安全加固 + 漏洞扫描
+            - 无遥测、无云端后门
+            - 窗口边缘拖动调大小
+            
+            ## 安装
+            用 VMware / VirtualBox / QEMU 加载 ISO，或用 dd / Rufus 写到 U 盘。
+            
+            ## 默认账号
+            安装过程中自行创建。
+            
+            ## SHA256
+            ```
+            ${{ hashFiles('yulo-1.0-desktop-amd64.iso') }}
+            ```
+          files: |
+            yulo-1.0-desktop-amd64.iso
+            yulo-1.0-desktop-amd64.iso.sha256
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
