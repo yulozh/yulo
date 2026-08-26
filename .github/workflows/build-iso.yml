@@ -41,18 +41,24 @@ jobs:
       - name: Extract squashfs from ISO
         run: |
           set +e
-          # List ISO contents for debugging
-          7z l ubuntu.iso 2>/dev/null | grep -i squash
-          # Try extracting from casper/ first, then root
-          7z e ubuntu.iso -o. "casper/filesystem.squashfs" -y > /dev/null 2>&1
-          if [ ! -f filesystem.squashfs ]; then
-            7z e ubuntu.iso -o. "filesystem.squashfs" -y > /dev/null 2>&1
+          # Ubuntu 26.04 uses minimal.standard.live.squashfs as main filesystem
+          7z l ubuntu.iso 2>/dev/null | grep -i "squashfs"
+          # Try the new name first, then old name
+          7z e ubuntu.iso -o. "casper/minimal.standard.live.squashfs" -y > /dev/null 2>&1
+          if [ ! -f minimal.standard.live.squashfs ]; then
+            7z e ubuntu.iso -o. "casper/filesystem.squashfs" -y > /dev/null 2>&1
           fi
-          if [ ! -f filesystem.squashfs ]; then
-            # Extract all and find it
+          if [ ! -f minimal.standard.live.squashfs ] && [ ! -f filesystem.squashfs ]; then
+            # Extract all and find the largest squashfs
             7z x ubuntu.iso -oiso-tmp -y > /dev/null 2>&1
-            find iso-tmp -name "filesystem.squashfs" -exec cp {} . \;
+            find iso-tmp -name "*.squashfs" -exec ls -lh {} \;
+            LARGEST=$(find iso-tmp -name "*.squashfs" -printf "%s %p\n" | sort -rn | head -1 | cut -d' ' -f2-)
+            cp "$LARGEST" ./minimal.standard.live.squashfs
             rm -rf iso-tmp
+          fi
+          # Rename to standard name
+          if [ -f minimal.standard.live.squashfs ]; then
+            mv minimal.standard.live.squashfs filesystem.squashfs
           fi
           ls -lh filesystem.squashfs
           rm -f ubuntu.iso
@@ -110,8 +116,8 @@ jobs:
           7z x ubuntu.iso -oiso-extract -y > /dev/null 2>&1
           chmod -R +w iso-extract
           rm ubuntu.iso
-          # Replace squashfs
-          SQUASHFS=$(find iso-extract -name "filesystem.squashfs" | head -1)
+          # Replace squashfs - find the largest one (main system)
+          SQUASHFS=$(find iso-extract -name "*.squashfs" -printf "%s %p\n" | sort -rn | head -1 | cut -d' ' -f2-)
           echo "Replacing: $SQUASHFS"
           rm -f "$SQUASHFS"
           mv filesystem.squashfs "$SQUASHFS"
