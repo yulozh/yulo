@@ -1,0 +1,53 @@
+#!/bin/bash
+# yulo OS - 暗色模式切换脚本
+# 用于 XFCE 桌面环境，切换亮色/暗色主题
+
+# 配置路径
+CONFIG_DIR="$HOME/.config/yulo"
+STATE_FILE="$CONFIG_DIR/dark-mode-state"
+
+# 确保配置目录存在
+mkdir -p "$CONFIG_DIR"
+
+# 读取当前状态
+if [ -f "$STATE_FILE" ]; then
+    CURRENT=$(cat "$STATE_FILE")
+else
+    CURRENT="light"
+fi
+
+# 切换状态
+if [ "$CURRENT" = "light" ]; then
+    NEW="dark"
+    GTK_THEME="Yulo-Dark"
+    WALLPAPER="/usr/share/backgrounds/yulo/wallpaper_4k_poster_dark.png"
+    NOTIFY_TEXT="已切换到暗色模式"
+else
+    NEW="light"
+    GTK_THEME="Yulo"
+    WALLPAPER="/usr/share/backgrounds/yulo/wallpaper_4k_poster.png"
+    NOTIFY_TEXT="已切换到亮色模式"
+fi
+
+# 保存新状态
+echo "$NEW" > "$STATE_FILE"
+
+# 切换 GTK 主题
+xfconf-query -c xsettings -p /Net/ThemeName -s "$GTK_THEME" 2>/dev/null || true
+
+# 切换窗口管理器主题
+xfconf-query -c xfwm4 -p /general/theme -s "$GTK_THEME" 2>/dev/null || true
+
+# 切换壁纸
+xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s "$WALLPAPER" 2>/dev/null || true
+
+# 刷新桌面
+xfdesktop --reload 2>/dev/null || true
+
+# 发送通知
+if command -v notify-send &>/dev/null; then
+    notify-send "yulo OS" "$NOTIFY_TEXT" -i preferences-desktop-theme 2>/dev/null || true
+fi
+
+echo "[yulo] 已切换到 $NEW 模式"
+exit 0

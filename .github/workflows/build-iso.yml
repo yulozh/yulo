@@ -68,9 +68,9 @@ jobs:
         run: |
           sudo rsync -a rootfs/ squashfs-root/
           sudo chmod -R a+rX squashfs-root/usr/share/themes/ squashfs-root/usr/share/icons/ squashfs-root/usr/share/backgrounds/ 2>/dev/null || true
-          sudo chmod +x squashfs-root/usr/lib/yulo/*.sh 2>/dev/null || true
-          sudo chroot squashfs-root dconf update 2>/dev/null || true
-          echo "yulo rootfs merged"
+          sudo chmod +x squashfs-root/usr/lib/yulo/*.sh squashfs-root/usr/bin/yulo-dark-mode-toggle 2>/dev/null || true
+          sudo chmod +x squashfs-root/etc/skel/.config -R 2>/dev/null || true
+          echo "yulo rootfs merged (XFCE edition)"
           df -h /
 
       - name: Clean up bloat
