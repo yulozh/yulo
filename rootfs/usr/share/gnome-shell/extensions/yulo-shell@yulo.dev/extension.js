@@ -5,7 +5,6 @@ const { St, Clutter, Gio, GLib, Shell, Meta } = imports.gi;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
-const AppSystem = imports.ui.appFavorites;
 const AppFavorites = imports.ui.appFavorites;
 const DND = imports.ui.dnd;
 const ExtensionUtils = imports.misc.extensionUtils;
@@ -166,6 +165,12 @@ function createBottomPanel() {
     global.stage.connect('notify::width', () => {
         if (bottomPanel) {
             bottomPanel.width = global.stage.width;
+            bottomPanel.y = global.stage.height - bottomPanel.height;
+        }
+    });
+    global.stage.connect('notify::height', () => {
+        if (bottomPanel) {
+            bottomPanel.y = global.stage.height - bottomPanel.height;
         }
     });
 }
@@ -422,13 +427,24 @@ function createClockWidget() {
     });
 
     clockWidget.connect('clicked', () => {
-        // Open calendar/date menu - use Gnome Shell's built-in date menu
+        // Open calendar/date menu - compatible with GNOME 46+
         try {
+            let dateMenu = null;
+            // GNOME 46+: date menu may be in quickSettings
             if (Main.panel.statusArea.dateMenu) {
-                Main.panel.statusArea.dateMenu.menu.toggle();
+                dateMenu = Main.panel.statusArea.dateMenu;
+            } else if (Main.panel.statusArea.aggregateMenu && Main.panel.statusArea.aggregateMenu.menu) {
+                dateMenu = Main.panel.statusArea.aggregateMenu;
+            }
+            if (dateMenu && dateMenu.menu) {
+                dateMenu.menu.toggle();
+            } else {
+                // Fallback: toggle overview
+                Main.overview.toggle();
             }
         } catch (e) {
             log('[Yulo Shell] clock click: ' + e);
+            try { Main.overview.toggle(); } catch(e2) {}
         }
     });
 
@@ -582,7 +598,10 @@ function applyTheme(dark) {
         // Shell theme
         try {
             Main.setThemeStylesheet(dark ? '/usr/share/themes/Yulo-Dark/gnome-shell/gnome-shell.css' : '/usr/share/themes/Yulo/gnome-shell/gnome-shell.css');
-            Main.loadTheme();
+            // loadTheme() may not exist in newer GNOME versions
+            if (typeof Main.loadTheme === 'function') {
+                Main.loadTheme();
+            }
         } catch (e) {
             log('[Yulo Shell] shell theme error: ' + e);
         }
@@ -649,7 +668,7 @@ function setupWindowAnimations() {
             // Remove actor after animation
             GLib.timeout_add(GLib.PRIORITY_DEFAULT, 260, () => {
                 try {
-                    if (actor && actor.get_parent()) {
+                    if (actor && !actor.is_destroyed() && actor.get_parent()) {
                         actor.get_parent().remove_child(actor);
                     }
                 } catch (e) {}
@@ -669,7 +688,7 @@ function setupWindowAnimations() {
             // Small delay to let window initialize
             GLib.timeout_add(GLib.PRIORITY_DEFAULT, 10, () => {
                 try {
-                    if (!actor || !actor.get_parent()) return false;
+                    if (!actor || actor.is_destroyed() || !actor.get_parent()) return false;
 
                     actor.set_pivot_point(0.5, 0.5);
                     actor.scale_x = 0.85;
