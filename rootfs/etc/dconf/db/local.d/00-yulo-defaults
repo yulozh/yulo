@@ -44,8 +44,10 @@ experimental-features=['scale-monitor-framebuffer','autoclose-xwayland']
 [org/gnome/shell]
 enabled-extensions=['yulo-shell@yulo.dev','ubuntu-appindicators@ubuntu.com']
 favorite-apps=['org.gnome.Nautilus.desktop','firefox.desktop','org.gnome.Terminal.desktop','org.gnome.Settings.desktop','org.gnome.TextEditor.desktop','org.gnome.Calendar.desktop','org.gnome.Software.desktop']
-welcome-dialog-last-shown-version='47.0'
+welcome-dialog-last-shown-version=''
 disable-user-extensions=false
+show-clock-seconds=true
+show-weekdate=true
 
 [org/gnome/shell/extensions/yulo-shell]
 dark-mode=false
@@ -109,12 +111,14 @@ show-type-column=true
 window-size=(1000,600)
 
 [org/gnome/nautilus/preferences]
-default-folder-viewer='list-view'
+default-folder-viewer='icon-view'
 search-filter-time-type='last_modified'
-search-view='list-view'
+search-view='icon-view'
 show-image-thumbnails='always'
 thumbnail-limit=4096
-show-delete-permanent=true
+show-delete-permanent=false
 mouse-back-button=true
 mouse-forward-button=true
 use-experimental-views=false
+click-policy='single'
+show-create-link=true

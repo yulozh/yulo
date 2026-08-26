@@ -69,6 +69,21 @@ function enable() {
     applyTheme(isDarkMode);
 
     log('[Yulo Shell] enabled successfully');
+
+    // 首次启动欢迎提示，只显示一次
+    try {
+        const keyFile = GLib.KeyFile.new();
+        const markerPath = GLib.build_filenamev([GLib.get_user_cache_dir(), 'yulo-welcomed']);
+        let alreadyWelcomed = false;
+        try { alreadyWelcomed = keyFile.load_from_file(markerPath, 0); } catch(e) {}
+        if (!alreadyWelcomed) {
+            keyFile.set_string('welcome', 'shown', 'yes');
+            keyFile.save_to_file(markerPath);
+            Main.notify('欢迎使用 yulo', '点左下角 yulo 图标打开应用列表，点右下角太阳切换暗色模式。');
+        }
+    } catch (e) {
+        log('[Yulo Shell] welcome: ' + e);
+    }
 }
 
 function disable() {
@@ -465,6 +480,7 @@ function createPowerButton() {
             const restartItem = new PopupMenu.PopupMenuItem('重启');
             const shutdownItem = new PopupMenu.PopupMenuItem('关机');
             const sleepItem = new PopupMenu.PopupMenuItem('睡眠');
+            const lockItem = new PopupMenu.PopupMenuItem('锁定屏幕');
             const logoutItem = new PopupMenu.PopupMenuItem('注销');
 
             restartItem.connect('activate', () => {
@@ -487,14 +503,29 @@ function createPowerButton() {
                     log('[Yulo Shell] sleep error: ' + e);
                 }
             });
+            lockItem.connect('activate', () => {
+                try {
+                    const ss = Gio.DBusProxy.new_sync(
+                        Gio.bus_get_sync(Gio.BusType.SESSION, null),
+                        Gio.DBusProxyFlags.NONE, null,
+                        'org.gnome.ScreenSaver', '/org/gnome/ScreenSaver',
+                        'org.gnome.ScreenSaver', null
+                    );
+                    ss.LockRemote();
+                } catch (e) {
+                    log('[Yulo Shell] lock error: ' + e);
+                }
+            });
             logoutItem.connect('activate', () => {
                 global.get_performances().goto_overview();
                 Meta.quit(Meta.QuitFlags.NONE);
             });
 
+            menu.addMenuItem(lockItem);
+            menu.addMenuItem(sleepItem);
+            menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
             menu.addMenuItem(restartItem);
             menu.addMenuItem(shutdownItem);
-            menu.addMenuItem(sleepItem);
             menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
             menu.addMenuItem(logoutItem);
             menu.open();

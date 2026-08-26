@@ -1,84 +1,86 @@
 # yulo OS
 
-一个基于 Ubuntu 26.04 LTS 的定制 Linux 发行版，主打樱花粉主题、Win11 式底部状态栏、4K 动态壁纸和流畅动画。
+基于 Ubuntu 26.04 LTS 的定制系统。樱花粉主题，Win11 式底部状态栏，4K 动态壁纸，开箱即用。
 
-## 特性
+## 特点
 
-- **主题**：白色 + 樱花粉（Sakura Pink），全局圆角，流畅过渡动画
-- **暗色模式**：太阳/月亮一键切换，暗色模式下壁纸自动调低亮度
-- **底部状态栏**：Win11 风格，居中应用图标，右侧时间/输入法/电源
-- **4K 动态壁纸**：无缝循环视频壁纸，无声音
-- **窗口动画**：打开/关闭时缩放+淡入淡出
-- **品牌**：yulo 名称和 LOGO 全局替换，去除 Ubuntu 标识
-- **安全**：禁用遥测、云端后门，sysctl 加固，防火墙配置
-- **自由**：无 AI 标识，无云端后门，完全自由使用
+- **樱花粉主题**：白色底 + 樱花粉强调色，圆角适中，不刺眼
+- **一键暗色**：点状态栏右下角的太阳，整个界面变黑，壁纸自动变暗
+- **底部状态栏**：左边 yulo 图标打开应用列表，中间是常用应用，右边是时间、输入法、电源
+- **4K 动态壁纸**：无缝循环视频，没有声音
+- **窗口动画**：打开时放大淡入，关闭时缩小淡出
+- **安全干净**：关掉了遥测和数据收集，没有云端后门，系统完全自由
+- **小白友好**：首次开机有欢迎提示，文件管理器默认图标视图，设置页面分类清楚
 
-## 仓库结构
+## 快速安装
+
+在一台已经装好 Ubuntu 26.04 的电脑或虚拟机上：
+
+```bash
+# 1. 下载这个仓库
+git clone https://github.com/yulozh/yulo.git
+cd yulo
+
+# 2. 一键安装（需要管理员密码）
+sudo ./install.sh
+
+# 3. 安装完后注销再登录，主题就生效了
+```
+
+安装脚本会自动做这些事：复制主题和壁纸、设置默认配置、启用状态栏扩展、配置启动画面、跑一遍安全加固。
+
+## 手动安装（不想用脚本）
+
+```bash
+sudo cp -r rootfs/* /
+sudo /usr/lib/yulo/first-boot-setup.sh
+sudo /usr/lib/yulo/security-hardening.sh
+gnome-extensions enable yulo-shell@yulo.dev
+```
+
+然后注销重新登录。
+
+## 常用操作
+
+| 操作 | 方法 |
+|------|------|
+| 打开应用列表 | 点左下角 yulo 图标，或按键盘上的 Windows 键 |
+| 切换暗色模式 | 点状态栏右下角的太阳图标 |
+| 切换中英文 | 点状态栏上的"中"/"英"按钮 |
+| 锁屏/关机/重启 | 点状态栏最右边的电源图标 |
+| 看时间日期 | 状态栏右下角，点一下弹出通知中心 |
+
+## 安全检查
+
+系统装好了可以跑一遍漏洞扫描：
+
+```bash
+sudo /usr/lib/yulo/vulnerability-scan.sh
+```
+
+会检查系统配置、防火墙、SSH、用户账户、监听端口等，输出一份报告。
+
+## 目录说明
 
 ```
 yulo/
-├── rootfs/                    # 目标系统文件（覆盖到 /）
-│   ├── etc/
-│   │   ├── dconf/             # 默认系统配置
-│   │   ├── os-release         # 系统品牌信息
-│   │   ├── lsb-release
-│   │   ├── issue
-│   │   └── systemd/system/    # 首次启动/加固服务
-│   ├── usr/
-│   │   ├── lib/yulo/          # 首次启动脚本、安全加固脚本
-│   │   ├── lib/os-release
-│   │   └── share/
-│   │       ├── backgrounds/yulo/  # 4K 壁纸
-│   │       ├── gnome-shell/extensions/yulo-shell@yulo.dev/  # 状态栏扩展
-│   │       ├── icons/Yulo/    # 图标主题
-│   │       ├── plymouth/themes/yulo/  # 启动画面
-│   │       └── themes/        # GTK3/GTK4/GNOME Shell 主题（亮色+暗色）
-│   └── ...
-├── assets/                    # 原始素材（LOGO、视频源文件）
+├── rootfs/              # 要复制到系统根目录的文件
+│   ├── etc/             # 系统配置（dconf默认、品牌信息、服务）
+│   └── usr/             # 主题、扩展、壁纸、脚本
+├── assets/              # 原始素材（LOGO、视频源）
+├── install.sh           # 一键安装脚本
+├── build-yulo-iso.sh    # 重新打包成ISO（需要真实Ubuntu环境）
 └── README.md
 ```
 
-## 安装
-
-### 方式一：应用到现有 Ubuntu 26.04 系统
-
-```bash
-# 复制 rootfs 到系统根目录
-sudo cp -r rootfs/* /
-
-# 运行首次启动脚本
-sudo /usr/lib/yulo/first-boot-setup.sh
-
-# 运行安全加固
-sudo /usr/lib/yulo/security-hardening.sh
-
-# 启用扩展
-gnome-extensions enable yulo-shell@yulo.dev
-
-# 注销并重新登录
-```
-
-### 方式二：重新打包 ISO
-
-使用 `squashfs-tools` 和 `xorriso` 将 rootfs 覆盖到 Ubuntu 26.04 ISO 的 squashfs 中，重新生成可启动 ISO。
-
-## 主题颜色
+## 颜色
 
 | 用途 | 亮色 | 暗色 |
 |------|------|------|
-| 背景 | `#ffffff` | `#1a1a2e` |
-| 文字 | `#2d2d2d` | `#e8e8e8` |
-| 强调色（樱花粉） | `#ff8fa3` | `#ff8fa3` |
-| 按钮背景 | `#ffb7c5` | `#ff8fa3` |
-| 边框 | `#ffd6de` | `#333355` |
-| 标题栏 | `#fff5f7` | `#20203a` |
-
-## 扩展快捷键
-
-- `Super`：打开/关闭概览（开始菜单）
-- `Super + L`：锁屏
-- `Ctrl + Alt + Delete`：注销
+| 背景 | 白 | 深灰蓝 |
+| 强调色 | 樱花粉 #ff8fa3 | 樱花粉 #ff8fa3 |
+| 按钮 | 浅粉 #ffb7c5 | 樱花粉 #ff8fa3 |
 
 ## 许可证
 
-MIT License
+MIT

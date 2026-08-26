@@ -44,13 +44,13 @@
     outline-style: solid;
     outline-offset: 2px;
     outline-width: 1px;
-    -gtk-outline-radius: 6px;
+    -gtk-outline-radius: 5px;
 }
 
 window {
     background-color: @window_bg_color;
     color: @window_fg_color;
-    border-radius: 14px;
+    border-radius: 10px;
     box-shadow: 0 8px 32px rgba(255, 143, 163, 0.18), 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
@@ -59,15 +59,15 @@ window.background {
 }
 
 window.popup {
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
 headerbar {
     background-color: @headerbar_bg_color;
     color: @headerbar_fg_color;
     border-bottom: 1px solid @headerbar_border_color;
-    border-top-left-radius: 14px;
-    border-top-right-radius: 14px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     padding: 6px 10px;
     min-height: 42px;
 }
@@ -75,7 +75,7 @@ headerbar {
 headerbar button {
     background-color: transparent;
     border: 1px solid transparent;
-    border-radius: 8px;
+    border-radius: 6px;
     padding: 6px 10px;
     color: @headerbar_fg_color;
     transition: all 0.2s ease;
@@ -106,7 +106,7 @@ button {
     background-color: @accent_bg_color;
     color: @accent_fg_color;
     border: 1px solid @accent_color;
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 8px 16px;
     font-weight: 500;
     transition: all 0.2s ease;
@@ -140,7 +140,7 @@ entry {
     background-color: @base_color;
     color: @text_color;
     border: 1px solid @border_color;
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 8px 12px;
     transition: all 0.2s ease;
 }
@@ -151,7 +151,7 @@ entry:focus {
 }
 
 entry.search {
-    border-radius: 20px;
+    border-radius: 14px;
     padding-left: 32px;
 }
 
@@ -171,7 +171,7 @@ notebook > header {
 notebook tab {
     background-color: transparent;
     border: none;
-    border-radius: 8px 8px 0 0;
+    border-radius: 6px 8px 0 0;
     padding: 10px 16px;
     color: @fg_color;
     transition: all 0.2s ease;
@@ -191,7 +191,7 @@ treeview {
     background-color: @base_color;
     color: @text_color;
     border: 1px solid @border_color;
-    border-radius: 8px;
+    border-radius: 6px;
 }
 
 treeview:selected {
@@ -201,12 +201,12 @@ treeview:selected {
 
 list {
     background-color: @base_color;
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
 list row {
     padding: 10px 12px;
-    border-radius: 8px;
+    border-radius: 6px;
     transition: all 0.15s ease;
 }
 
@@ -227,7 +227,7 @@ scrollbar {
 
 scrollbar slider {
     background-color: rgba(255, 143, 163, 0.4);
-    border-radius: 8px;
+    border-radius: 6px;
     min-width: 8px;
     min-height: 8px;
     transition: all 0.2s ease;
@@ -239,14 +239,14 @@ scrollbar slider:hover {
 
 progressbar {
     background-color: #f0f0f0;
-    border-radius: 10px;
+    border-radius: 8px;
     min-height: 10px;
     overflow: hidden;
 }
 
 progressbar progress {
     background-color: @accent_bg_color;
-    border-radius: 10px;
+    border-radius: 8px;
     min-height: 10px;
 }
 
@@ -273,7 +273,7 @@ scale slider {
 
 switch {
     background-color: #e0e0e0;
-    border-radius: 12px;
+    border-radius: 9px;
     min-width: 44px;
     min-height: 24px;
     padding: 2px;
@@ -317,7 +317,7 @@ combobox button.combo {
     background-color: @base_color;
     color: @text_color;
     border: 1px solid @border_color;
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 8px 12px;
 }
 
@@ -328,7 +328,7 @@ combobox button.combo:hover {
 popover {
     background-color: @popover_bg_color;
     border: 1px solid @border_color;
-    border-radius: 12px;
+    border-radius: 9px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
     padding: 6px;
 }
@@ -339,7 +339,7 @@ popover menu {
 }
 
 popover menuitem {
-    border-radius: 8px;
+    border-radius: 6px;
     padding: 8px 12px;
     transition: all 0.15s ease;
 }
@@ -351,13 +351,13 @@ popover menuitem:hover {
 menu {
     background-color: @popover_bg_color;
     border: 1px solid @border_color;
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 6px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 menuitem {
-    border-radius: 8px;
+    border-radius: 6px;
     padding: 8px 12px;
     transition: all 0.15s ease;
 }
@@ -372,7 +372,7 @@ menuitem:hover {
 }
 
 .sidebar list row {
-    border-radius: 10px;
+    border-radius: 8px;
     margin: 2px 6px;
     padding: 10px 12px;
 }
@@ -384,7 +384,7 @@ menuitem:hover {
 
 frame {
     border: 1px solid @border_color;
-    border-radius: 12px;
+    border-radius: 9px;
     background-color: @card_bg_color;
     box-shadow: 0 2px 8px @card_shade_color;
 }
@@ -396,7 +396,7 @@ frame > label {
 }
 
 infobar {
-    border-radius: 10px;
+    border-radius: 8px;
     border: none;
     padding: 8px 12px;
 }
@@ -420,7 +420,7 @@ tooltip {
     background-color: @tooltip_bg_color;
     color: @tooltip_fg_color;
     border: 1px solid @border_color;
-    border-radius: 8px;
+    border-radius: 6px;
     padding: 6px 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -428,20 +428,20 @@ tooltip {
 calendar {
     background-color: @base_color;
     border: 1px solid @border_color;
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 8px;
 }
 
 calendar:selected {
     background-color: @accent_bg_color;
     color: @accent_fg_color;
-    border-radius: 6px;
+    border-radius: 5px;
 }
 
 spinbutton {
     background-color: @base_color;
     border: 1px solid @border_color;
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
 spinbutton:focus {
@@ -451,13 +451,13 @@ spinbutton:focus {
 
 levelbar trough {
     background-color: #f0f0f0;
-    border-radius: 6px;
+    border-radius: 5px;
     min-height: 8px;
 }
 
 levelbar block {
     background-color: @accent_bg_color;
-    border-radius: 6px;
+    border-radius: 5px;
     min-height: 8px;
 }
 
@@ -465,7 +465,7 @@ textview {
     background-color: @base_color;
     color: @text_color;
     border: 1px solid @border_color;
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 8px;
 }
 
@@ -475,7 +475,7 @@ stacksidebar {
 }
 
 stacksidebar list row {
-    border-radius: 10px;
+    border-radius: 8px;
     margin: 2px 6px;
     padding: 10px 12px;
 }
@@ -488,14 +488,14 @@ stacksidebar list row:selected {
 actionbar {
     background-color: @headerbar_bg_color;
     border-top: 1px solid @border_color;
-    border-bottom-left-radius: 14px;
-    border-bottom-right-radius: 14px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     padding: 8px 10px;
 }
 
 dialog {
     background-color: @dialog_bg_color;
-    border-radius: 14px;
+    border-radius: 10px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 

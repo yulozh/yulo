@@ -22,7 +22,7 @@ stage {
 }
 
 #panel .panel-button {
-    border-radius: 8px;
+    border-radius: 6px;
     padding: 0 8px;
     transition: all 0.2s ease;
 }
@@ -65,7 +65,7 @@ stage {
 .calendar {
     background-color: #ffffff;
     border: 1px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 9px;
     padding: 8px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
@@ -77,7 +77,7 @@ stage {
 }
 
 .calendar .calendar-day-base {
-    border-radius: 8px;
+    border-radius: 6px;
     padding: 4px;
     transition: all 0.15s ease;
 }
@@ -110,7 +110,7 @@ stage {
 .notification-banner {
     background-color: #ffffff;
     border: 1px solid #ffd6de;
-    border-radius: 14px;
+    border-radius: 10px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
     padding: 12px 16px;
     margin: 6px;
@@ -139,7 +139,7 @@ stage {
 .notification-banner .notification-button {
     background-color: #ffb7c5;
     color: #ffffff;
-    border-radius: 8px;
+    border-radius: 6px;
     padding: 6px 12px;
     font-weight: 500;
     transition: all 0.2s ease;
@@ -152,7 +152,7 @@ stage {
 /* Message list (date menu) */
 .message-list {
     background-color: #ffffff;
-    border-radius: 12px;
+    border-radius: 9px;
 }
 
 .message-list-sections {
@@ -170,7 +170,7 @@ stage {
 .quick-settings {
     background-color: #ffffff;
     border: 1px solid #ffd6de;
-    border-radius: 14px;
+    border-radius: 10px;
     padding: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
@@ -178,7 +178,7 @@ stage {
 .quick-toggle {
     background-color: #fff5f7;
     border: 1px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 9px;
     padding: 10px 12px;
     transition: all 0.2s ease;
 }
@@ -209,7 +209,7 @@ stage {
 .quick-toggle-menu {
     background-color: #ffffff;
     border: 1px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 9px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
@@ -249,7 +249,7 @@ stage {
 #searchEntry {
     background-color: rgba(255, 255, 255, 0.9);
     border: 2px solid #ffd6de;
-    border-radius: 20px;
+    border-radius: 14px;
     padding: 10px 20px;
     color: #2d2d2d;
     font-size: 1.1em;
@@ -281,7 +281,7 @@ stage {
 .search-result-content {
     background-color: rgba(255, 255, 255, 0.9);
     border: 1px solid #ffd6de;
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 8px 12px;
     transition: all 0.15s ease;
 }
@@ -296,7 +296,7 @@ stage {
 /* App grid */
 .app-well-app {
     background-color: transparent;
-    border-radius: 14px;
+    border-radius: 10px;
     padding: 8px;
     transition: all 0.2s ease;
 }
@@ -308,7 +308,7 @@ stage {
 
 .app-well-app .overview-icon {
     background-color: transparent;
-    border-radius: 12px;
+    border-radius: 9px;
     padding: 8px;
 }
 
@@ -327,13 +327,13 @@ stage {
 .app-well-app.app-folder {
     background-color: rgba(255, 255, 255, 0.8);
     border: 1px solid #ffd6de;
-    border-radius: 16px;
+    border-radius: 12px;
 }
 
 .app-folder-dialog {
     background-color: #ffffff;
     border: 1px solid #ffd6de;
-    border-radius: 16px;
+    border-radius: 12px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
@@ -350,19 +350,19 @@ stage {
 
 .window-picker.external-monitor {
     border: 2px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 9px;
 }
 
 .window-clone-border {
     border: 3px solid #ff8fa3;
-    border-radius: 12px;
+    border-radius: 9px;
     box-shadow: 0 8px 32px rgba(255, 143, 163, 0.3);
 }
 
 .window-caption {
     background-color: rgba(255, 255, 255, 0.95);
     border: 1px solid #ffd6de;
-    border-radius: 8px;
+    border-radius: 6px;
     padding: 4px 10px;
     color: #2d2d2d;
     font-weight: 500;
@@ -374,7 +374,7 @@ stage {
 .workspace-thumbnails {
     background-color: rgba(255, 255, 255, 0.8);
     border: 1px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 9px;
     padding: 8px;
     spacing: 8px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
@@ -382,7 +382,7 @@ stage {
 
 .workspace-thumbnail-indicator {
     border: 3px solid #ff8fa3;
-    border-radius: 8px;
+    border-radius: 6px;
     box-shadow: 0 0 0 2px rgba(255, 143, 163, 0.3);
 }
 
@@ -390,7 +390,7 @@ stage {
 #dash {
     background-color: rgba(255, 255, 255, 0.9);
     border: 1px solid #ffd6de;
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 8px;
     spacing: 6px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -402,7 +402,7 @@ stage {
 
 #dash .app-well-app {
     padding: 4px;
-    border-radius: 12px;
+    border-radius: 9px;
 }
 
 #dash .app-well-app:hover {
@@ -418,7 +418,7 @@ stage {
 
 #dash .show-apps {
     background-color: #ffb7c5;
-    border-radius: 12px;
+    border-radius: 9px;
     color: #ffffff;
 }
 
@@ -430,7 +430,7 @@ stage {
 .osd-window {
     background-color: rgba(255, 255, 255, 0.95);
     border: 1px solid #ffd6de;
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 20px 28px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
@@ -468,7 +468,7 @@ stage {
 .modal-dialog {
     background-color: #ffffff;
     border: 1px solid #ffd6de;
-    border-radius: 16px;
+    border-radius: 12px;
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
     padding: 24px;
 }
@@ -480,7 +480,7 @@ stage {
 .modal-dialog .modal-dialog-linked-button {
     background-color: #fff5f7;
     border: 1px solid #ffd6de;
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 10px 20px;
     font-weight: 500;
     color: #2d2d2d;
@@ -517,7 +517,7 @@ stage {
 .run-dialog {
     background-color: #ffffff;
     border: 1px solid #ffd6de;
-    border-radius: 16px;
+    border-radius: 12px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
     padding: 20px;
 }
@@ -525,7 +525,7 @@ stage {
 .run-dialog .run-dialog-entry {
     background-color: #fff5f7;
     border: 2px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 9px;
     padding: 10px 16px;
     color: #2d2d2d;
     font-size: 1.1em;
@@ -544,7 +544,7 @@ stage {
 .end-session-dialog {
     background-color: #ffffff;
     border: 1px solid #ffd6de;
-    border-radius: 16px;
+    border-radius: 12px;
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
 }
 
@@ -566,14 +566,14 @@ stage {
 #unlockDialog {
     background-color: rgba(255, 255, 255, 0.95);
     border: 1px solid #ffd6de;
-    border-radius: 16px;
+    border-radius: 12px;
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
 }
 
 #unlockDialog .login-dialog-prompt-entry {
     background-color: #fff5f7;
     border: 2px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 9px;
     padding: 10px 16px;
     color: #2d2d2d;
 }
@@ -585,7 +585,7 @@ stage {
 #unlockDialog .login-dialog-button {
     background-color: #ffb7c5;
     color: #ffffff;
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 8px 20px;
     font-weight: 500;
     transition: all 0.2s ease;
@@ -599,13 +599,13 @@ stage {
 .switcher-popup {
     background-color: rgba(255, 255, 255, 0.95);
     border: 1px solid #ffd6de;
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 16px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 .switcher-popup .switcher-item {
-    border-radius: 12px;
+    border-radius: 9px;
     padding: 12px;
     transition: all 0.2s ease;
 }
@@ -623,12 +623,12 @@ stage {
 .im-menu {
     background-color: #ffffff;
     border: 1px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 9px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
 .im-menu .im-menu-item {
-    border-radius: 8px;
+    border-radius: 6px;
     padding: 8px 12px;
     transition: all 0.15s ease;
 }
@@ -652,7 +652,7 @@ stage {
 .keyboard .keyboard-key {
     background-color: #ffffff;
     border: 1px solid #ffd6de;
-    border-radius: 8px;
+    border-radius: 6px;
     color: #2d2d2d;
     font-weight: 500;
     transition: all 0.1s ease;
@@ -668,13 +668,13 @@ stage {
 /* Magnifier */
 .magnifier-zoom-region {
     border: 2px solid #ff8fa3;
-    border-radius: 8px;
+    border-radius: 6px;
 }
 
 /* Focus mode */
 .focus-indicator {
     border: 2px solid #ff8fa3;
-    border-radius: 8px;
+    border-radius: 6px;
     box-shadow: 0 0 0 2px rgba(255, 143, 163, 0.3);
 }
 
@@ -682,12 +682,12 @@ stage {
 .window-menu {
     background-color: #ffffff;
     border: 1px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 9px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
 .window-menu .window-menu-item {
-    border-radius: 8px;
+    border-radius: 6px;
     padding: 8px 12px;
     transition: all 0.15s ease;
 }
@@ -705,14 +705,14 @@ stage {
 .tile-preview {
     background-color: rgba(255, 183, 197, 0.3);
     border: 2px solid #ff8fa3;
-    border-radius: 12px;
+    border-radius: 9px;
 }
 
 /* DND */
 .drag-window-placeholder {
     background-color: rgba(255, 183, 197, 0.2);
     border: 2px dashed #ff8fa3;
-    border-radius: 12px;
+    border-radius: 9px;
 }
 
 /* Scrollbars in shell */
@@ -723,7 +723,7 @@ StScrollBar {
 StScrollBar StBin#vhandle,
 StScrollBar StBin#hhandle {
     background-color: rgba(255, 143, 163, 0.4);
-    border-radius: 8px;
+    border-radius: 6px;
     transition: all 0.2s ease;
 }
 
@@ -736,12 +736,12 @@ StScrollBar StBin#hhandle:hover {
 .popup-menu {
     background-color: #ffffff;
     border: 1px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 9px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
 .popup-menu .popup-menu-item {
-    border-radius: 8px;
+    border-radius: 6px;
     padding: 8px 12px;
     transition: all 0.15s ease;
 }
@@ -763,14 +763,14 @@ StScrollBar StBin#hhandle:hover {
 
 .popup-menu .popup-sub-menu {
     background-color: #fff5f7;
-    border-radius: 8px;
+    border-radius: 6px;
 }
 
 /* Buttons in shell */
 .button {
     background-color: #ffb7c5;
     color: #ffffff;
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 8px 16px;
     font-weight: 500;
     transition: all 0.2s ease;
