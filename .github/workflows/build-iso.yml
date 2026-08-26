@@ -27,12 +27,15 @@ jobs:
       - name: Install tools
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y squashfs-tools xorriso p7zip-full rsync
+          sudo apt-get install -y squashfs-tools xorriso p7zip-full rsync aria2
 
       - name: Download Ubuntu ISO
         run: |
-          wget --show-progress --tries=3 -O ubuntu.iso \
-            "https://mirrors.kernel.org/ubuntu-releases/26.04/ubuntu-26.04-desktop-amd64.iso"
+          aria2c -x 16 -s 16 -k 1M --max-connection-per-server=16 \
+            -o ubuntu.iso \
+            "https://mirrors.kernel.org/ubuntu-releases/26.04/ubuntu-26.04-desktop-amd64.iso" \
+            "https://releases.ubuntu.com/26.04/ubuntu-26.04-desktop-amd64.iso" \
+            "https://ftp.yz.yamagata-u.ac.jp/pub/linux/ubuntu/releases/26.04/ubuntu-26.04-desktop-amd64.iso"
           ls -lh ubuntu.iso
 
       - name: Extract squashfs from ISO
@@ -98,8 +101,11 @@ jobs:
 
       - name: Re-download and extract full ISO
         run: |
-          wget --show-progress --tries=3 -O ubuntu.iso \
-            "https://mirrors.kernel.org/ubuntu-releases/26.04/ubuntu-26.04-desktop-amd64.iso"
+          aria2c -x 16 -s 16 -k 1M --max-connection-per-server=16 \
+            -o ubuntu.iso \
+            "https://mirrors.kernel.org/ubuntu-releases/26.04/ubuntu-26.04-desktop-amd64.iso" \
+            "https://releases.ubuntu.com/26.04/ubuntu-26.04-desktop-amd64.iso" \
+            "https://ftp.yz.yamagata-u.ac.jp/pub/linux/ubuntu/releases/26.04/ubuntu-26.04-desktop-amd64.iso"
           mkdir iso-extract
           7z x ubuntu.iso -oiso-extract -y > /dev/null 2>&1
           chmod -R +w iso-extract
