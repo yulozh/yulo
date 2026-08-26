@@ -212,7 +212,7 @@ function createAppDock() {
     if (favorites.length === 0) {
         const defaultApps = [
             'org.gnome.Nautilus.desktop',
-            'firefox.desktop',
+            'chromium-browser.desktop',
             'org.gnome.Terminal.desktop',
             'org.gnome.Settings.desktop',
             'org.gnome.TextEditor.desktop',
@@ -283,7 +283,7 @@ function refreshAppDock() {
     if (favorites.length === 0) {
         const defaultApps = [
             'org.gnome.Nautilus.desktop',
-            'firefox.desktop',
+            'chromium-browser.desktop',
             'org.gnome.Terminal.desktop',
             'org.gnome.Settings.desktop',
         ];
@@ -374,16 +374,13 @@ function createInputIndicator() {
     });
 
     inputIndicator.connect('clicked', () => {
-        // Toggle input method
+        // Toggle input method using GSettings
         try {
-            const ibus = global.get_ibus_manager();
-            if (ibus) {
-                // Cycle through input sources
-                const sources = ibus.get_input_sources();
-                const current = ibus.get_current_input_source();
-                const next = (current + 1) % sources.length;
-                ibus.set_input_source(next);
-            }
+            const inputSettings = new Gio.Settings({ schema: 'org.gnome.desktop.input-sources' });
+            const sources = inputSettings.get_value('sources');
+            const current = inputSettings.get_uint('current');
+            const next = (current + 1) % sources.n_children();
+            inputSettings.set_uint('current', next);
         } catch (e) {
             log('[Yulo Shell] input toggle: ' + e);
         }
@@ -425,8 +422,14 @@ function createClockWidget() {
     });
 
     clockWidget.connect('clicked', () => {
-        // Open calendar/date menu
-        Main.panel.statusArea.dateMenu.menu.toggle();
+        // Open calendar/date menu - use Gnome Shell's built-in date menu
+        try {
+            if (Main.panel.statusArea.dateMenu) {
+                Main.panel.statusArea.dateMenu.menu.toggle();
+            }
+        } catch (e) {
+            log('[Yulo Shell] clock click: ' + e);
+        }
     });
 
     rightBox.add_child(clockWidget);
@@ -484,10 +487,26 @@ function createPowerButton() {
             const logoutItem = new PopupMenu.PopupMenuItem('注销');
 
             restartItem.connect('activate', () => {
-                Meta.restart(Meta.RestartFlags.NONE);
+                try {
+                    const proxy = Gio.DBusProxy.new_sync(
+                        Gio.bus_get_sync(Gio.BusType.SYSTEM, null),
+                        Gio.DBusProxyFlags.NONE, null,
+                        'org.freedesktop.login1', '/org/freedesktop/login1',
+                        'org.freedesktop.login1.Manager', null
+                    );
+                    proxy.RebootRemote(true);
+                } catch (e) { log('[Yulo Shell] restart: ' + e); }
             });
             shutdownItem.connect('activate', () => {
-                Meta.shutdown(Meta.ShutdownFlags.NONE);
+                try {
+                    const proxy = Gio.DBusProxy.new_sync(
+                        Gio.bus_get_sync(Gio.BusType.SYSTEM, null),
+                        Gio.DBusProxyFlags.NONE, null,
+                        'org.freedesktop.login1', '/org/freedesktop/login1',
+                        'org.freedesktop.login1.Manager', null
+                    );
+                    proxy.PowerOffRemote(true);
+                } catch (e) { log('[Yulo Shell] shutdown: ' + e); }
             });
             sleepItem.connect('activate', () => {
                 try {
@@ -517,8 +536,15 @@ function createPowerButton() {
                 }
             });
             logoutItem.connect('activate', () => {
-                global.get_performances().goto_overview();
-                Meta.quit(Meta.QuitFlags.NONE);
+                try {
+                    const proxy = Gio.DBusProxy.new_sync(
+                        Gio.bus_get_sync(Gio.BusType.SESSION, null),
+                        Gio.DBusProxyFlags.NONE, null,
+                        'org.gnome.SessionManager', '/org/gnome/SessionManager',
+                        'org.gnome.SessionManager', null
+                    );
+                    proxy.LogoutRemote(0);
+                } catch (e) { log('[Yulo Shell] logout: ' + e); }
             });
 
             menu.addMenuItem(lockItem);
@@ -583,7 +609,7 @@ function setupWindowAnimations() {
     windowRemovedHandler = global.display.connect('window-removed', (display, window) => {
         try {
             const actor = window.get_compositor_private();
-            if (!actor) return;
+            if (!actor || !actor.get_parent()) return;
 
             // Save original state
             const origX = actor.x;

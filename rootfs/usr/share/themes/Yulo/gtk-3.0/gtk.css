@@ -19,10 +19,10 @@
 
 * { -GtkWidget-focus-line-width: 0; outline-style: none; }
 
-window { background-color: @window_bg; color: @text; border-radius: 10px; }
+window { background-color: @window_bg; color: @text; border-radius: 8px; }
 window:backdrop { background-color: @window_bg; }
 .window-frame, .window-frame:backdrop {
-    border-radius: 10px; border: 1px solid @border;
+    border-radius: 8px; border: 1px solid @border;
     box-shadow: 0 8px 32px @shadow_strong, 0 2px 8px @shadow; margin: 8px;
 }
 .window-frame.maximized, .window-frame.tiled {
@@ -106,8 +106,8 @@ list row:selected { background-color: @accent_bg; }
 view { background-color: @view_bg; color: @text; }
 view:selected, view selection { background-color: @accent; color: #fff; }
 
-.frame { border: 1px solid @border; border-radius: 10px; background-color: @window_bg; padding: 16px; }
-.card { background-color: @window_bg; border: 1px solid @border; border-radius: 10px; padding: 16px; box-shadow: 0 1px 3px @shadow; }
+.frame { border: 1px solid @border; border-radius: 8px; background-color: @window_bg; padding: 16px; }
+.card { background-color: @window_bg; border: 1px solid @border; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px @shadow; }
 
 switch {
     background-color: #d1d1d6; border: none; border-radius: 14px; padding: 2px;
@@ -145,11 +145,11 @@ combobox button.combo {
 }
 combobox button.combo:hover { border-color: #b0b0b8; background-color: #f7f7f9; }
 combobox window.popup, combobox menu {
-    border-radius: 10px; border: 1px solid @border; box-shadow: 0 8px 24px @shadow_strong; padding: 4px;
+    border-radius: 8px; border: 1px solid @border; box-shadow: 0 8px 24px @shadow_strong; padding: 4px;
 }
 
 menu, .popup, .csd menu {
-    background-color: @window_bg; border: 1px solid @border; border-radius: 10px;
+    background-color: @window_bg; border: 1px solid @border; border-radius: 8px;
     box-shadow: 0 8px 24px @shadow_strong; padding: 6px;
 }
 menu menuitem, .popup menuitem {
@@ -196,7 +196,7 @@ scrollbar slider:hover { background-color: rgba(0,0,0,0.35); }
 scrollbar slider:backdrop { background-color: rgba(0,0,0,0.12); }
 scrollbar trough { background: transparent; border: none; }
 
-calendar { background-color: @view_bg; border: 1px solid @border; border-radius: 10px; padding: 8px; }
+calendar { background-color: @view_bg; border: 1px solid @border; border-radius: 8px; padding: 8px; }
 calendar:selected { background-color: @accent; color: #fff; border-radius: 6px; }
 
 colorswatch { border-radius: 8px; border: 1px solid @border; }
@@ -206,7 +206,7 @@ statusbar { background-color: @header_bg; border-top: 1px solid @border; padding
 
 actionbar { background-color: @header_bg; border-top: 1px solid @border; padding: 8px 12px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; }
 
-infobar { border-radius: 10px; border: 1px solid @border; margin: 6px; }
+infobar { border-radius: 8px; border: 1px solid @border; margin: 6px; }
 infobar.info { background-color: #e8f4fd; border-color: #b8dff7; }
 infobar.warning { background-color: #fff5e6; border-color: #ffd9a0; }
 infobar.error { background-color: #ffebe9; border-color: #ffc0bb; }

@@ -110,7 +110,7 @@ stage {
 .notification-banner {
     background-color: #1a1a2e;
     border: 1px solid #333355;
-    border-radius: 10px;
+    border-radius: 8px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     padding: 12px 16px;
     margin: 6px;
@@ -170,7 +170,7 @@ stage {
 .quick-settings {
     background-color: #1a1a2e;
     border: 1px solid #333355;
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
@@ -296,7 +296,7 @@ stage {
 /* App grid */
 .app-well-app {
     background-color: transparent;
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 8px;
     transition: all 0.2s ease;
 }
