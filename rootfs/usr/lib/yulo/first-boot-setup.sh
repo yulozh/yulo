@@ -80,7 +80,7 @@ echo "[yulo] Enabling yulo-shell extension..."
 mkdir -p /etc/dconf/db/local.d
 cat > /etc/dconf/db/local.d/01-extensions <<'EXTCONF'
 [org/gnome/shell]
-enabled-extensions=['yulo-shell@yulo.dev']
+enabled-extensions=['yulo-shell@yulo.dev','ubuntu-appindicators@ubuntu.com']
 disable-user-extensions=false
 EXTCONF
 dconf update 2>/dev/null || true
