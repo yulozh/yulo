@@ -152,6 +152,25 @@ jobs:
         run: |
           sha256sum yulo-1.0-desktop-amd64.iso > yulo-1.0-desktop-amd64.iso.sha256
           cat yulo-1.0-desktop-amd64.iso.sha256
+          ls -lh yulo-1.0-desktop-amd64.iso
+
+      - name: Split ISO (GitHub 2GB limit)
+        run: |
+          split -b 1500M yulo-1.0-desktop-amd64.iso yulo-1.0-desktop-amd64.iso.part-
+          ls -lh yulo-1.0-desktop-amd64.iso.part-*
+          cat > recombine.sh << 'EOF'
+#!/bin/bash
+cat yulo-1.0-desktop-amd64.iso.part-* > yulo-1.0-desktop-amd64.iso
+sha256sum -c yulo-1.0-desktop-amd64.iso.sha256
+echo "Done!"
+EOF
+          chmod +x recombine.sh
+
+      - name: Delete old release
+        run: |
+          gh release delete v1.0 -y 2>/dev/null || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload to Release
         uses: softprops/action-gh-release@v2
@@ -172,10 +191,19 @@ jobs:
             - 窗口边缘拖动调大小
             - 已清理系统冗余（游戏、Thunderbird、示例文件等）
             
+            ## 下载和合并
+            ISO 超过 2GB 已分卷。下载所有 part 文件后：
+            ```bash
+            cat yulo-1.0-desktop-amd64.iso.part-* > yulo-1.0-desktop-amd64.iso
+            sha256sum -c yulo-1.0-desktop-amd64.iso.sha256
+            ```
+            或运行 recombine.sh
+            
             ## 安装
             用 VMware / VirtualBox / QEMU 加载 ISO，或用 dd / Rufus 写到 U 盘。
           files: |
-            yulo-1.0-desktop-amd64.iso
+            yulo-1.0-desktop-amd64.iso.part-*
             yulo-1.0-desktop-amd64.iso.sha256
+            recombine.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
