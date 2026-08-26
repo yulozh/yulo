@@ -561,6 +561,15 @@ function applyTheme(dark) {
             log('[Yulo Shell] shell theme error: ' + e);
         }
 
+        // Panel dark/light class
+        if (bottomPanel) {
+            if (dark) {
+                bottomPanel.add_style_class_name('dark');
+            } else {
+                bottomPanel.remove_style_class_name('dark');
+            }
+        }
+
         log('[Yulo Shell] theme applied: ' + (dark ? 'dark' : 'light'));
     } catch (e) {
         log('[Yulo Shell] applyTheme error: ' + e);

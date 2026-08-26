@@ -32,6 +32,18 @@ echo "  yulo OS Installer"
 echo "========================================"
 echo ""
 
+# Software setup: Chromium in, Firefox and bloat out
+log_info "Setting up software..."
+apt-get update -qq 2>/dev/null || true
+apt-get remove -y firefox firefox-locale-en 2>/dev/null || true
+apt-get remove -y gnome-mines gnome-sudoku gnome-mahjongg aisleriot gnome-tetravex 2>/dev/null || true
+apt-get remove -y thunderbird 2>/dev/null || true
+apt-get remove -y libreoffice-impress libreoffice-math 2>/dev/null || true
+apt-get remove -y gnome-todo 2>/dev/null || true
+apt-get install -y chromium-browser 2>/dev/null || apt-get install -y chromium 2>/dev/null || true
+apt-get autoremove -y 2>/dev/null || true
+log_info "  Chromium installed, Firefox and bloat removed"
+
 # Step 1: Copy all files to system
 log_info "[1/8] Copying yulo files to system..."
 cp -a "${ROOTFS}/." /
