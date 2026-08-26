@@ -1,0 +1,13 @@
+[Unit]
+Description=Yulo OS First-Boot Setup
+After=graphical.target systemd-user-sessions.service
+ConditionPathExists=!/var/lib/yulo/first-boot-done
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/yulo/first-boot-setup.sh
+RemainAfterExit=yes
+TimeoutStartSec=0
+
+[Install]
+WantedBy=graphical.target

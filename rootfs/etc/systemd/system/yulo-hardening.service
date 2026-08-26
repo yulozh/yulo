@@ -1,0 +1,13 @@
+[Unit]
+Description=Yulo OS Security Hardening
+After=network.target
+ConditionPathExists=!/var/lib/yulo/hardening-done
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/yulo/security-hardening.sh
+RemainAfterExit=yes
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target

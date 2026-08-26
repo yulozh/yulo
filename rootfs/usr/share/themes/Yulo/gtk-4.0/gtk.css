@@ -1,0 +1,566 @@
+/* Yulo GTK4 Theme - White + Sakura Pink, Rounded Corners */
+
+@define-color bg_color #ffffff;
+@define-color fg_color #2d2d2d;
+@define-color base_color #ffffff;
+@define-color text_color #2d2d2d;
+@define-color selected_bg_color #ffb7c5;
+@define-color selected_fg_color #ffffff;
+@define-color accent_color #ff8fa3;
+@define-color accent_bg_color #ffb7c5;
+@define-color accent_fg_color #ffffff;
+@define-color destructive_color #e5484d;
+@define-color destructive_bg_color #ffe5e5;
+@define-color destructive_fg_color #ffffff;
+@define-color success_color #2f9e44;
+@define-color success_bg_color #d3f9d8;
+@define-color warning_color #f08c00;
+@define-color warning_bg_color #fff9db;
+@define-color error_color #e5484d;
+@define-color error_bg_color #ffe5e5;
+@define-color window_bg_color #ffffff;
+@define-color window_fg_color #2d2d2d;
+@define-color view_bg_color #ffffff;
+@define-color view_fg_color #2d2d2d;
+@define-color headerbar_bg_color #fff5f7;
+@define-color headerbar_fg_color #2d2d2d;
+@define-color headerbar_border_color #ffd6de;
+@define-color card_bg_color #ffffff;
+@define-color card_fg_color #2d2d2d;
+@define-color card_shade_color rgba(255, 143, 163, 0.12);
+@define-color popover_bg_color #ffffff;
+@define-color popover_fg_color #2d2d2d;
+@define-color dialog_bg_color #ffffff;
+@define-color dialog_fg_color #2d2d2d;
+@define-color sidebar_bg_color #fff5f7;
+@define-color sidebar_fg_color #2d2d2d;
+@define-color border_color #ffd6de;
+@define-color light_border_color #ffeef1;
+@define-color tooltip_bg_color #fff5f7;
+@define-color tooltip_fg_color #2d2d2d;
+
+* {
+    outline-color: rgba(255, 143, 163, 0.5);
+    outline-style: solid;
+    outline-offset: 2px;
+    outline-width: 1px;
+    -gtk-outline-radius: 6px;
+}
+
+window {
+    background-color: @window_bg_color;
+    color: @window_fg_color;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(255, 143, 163, 0.18), 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+window.background {
+    background-color: @window_bg_color;
+}
+
+window.popup {
+    border-radius: 10px;
+}
+
+headerbar {
+    background-color: @headerbar_bg_color;
+    color: @headerbar_fg_color;
+    border-bottom: 1px solid @headerbar_border_color;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    padding: 6px 10px;
+    min-height: 42px;
+}
+
+headerbar button {
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: @headerbar_fg_color;
+    transition: all 0.2s ease;
+}
+
+headerbar button:hover {
+    background-color: rgba(255, 143, 163, 0.15);
+    border-color: @border_color;
+}
+
+headerbar button:active,
+headerbar button:checked {
+    background-color: @accent_bg_color;
+    color: @accent_fg_color;
+}
+
+headerbar button.suggested-action {
+    background-color: @accent_bg_color;
+    color: @accent_fg_color;
+    border-color: @accent_color;
+}
+
+headerbar button.suggested-action:hover {
+    background-color: @accent_color;
+}
+
+button {
+    background-color: @accent_bg_color;
+    color: @accent_fg_color;
+    border: 1px solid @accent_color;
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    background-color: @accent_color;
+}
+
+button:active {
+    background-color: #ff7a90;
+}
+
+button:disabled {
+    background-color: #f0f0f0;
+    color: #b0b0b0;
+    border-color: #e0e0e0;
+}
+
+button.flat {
+    background-color: transparent;
+    border-color: transparent;
+    color: @fg_color;
+}
+
+button.flat:hover {
+    background-color: rgba(255, 143, 163, 0.12);
+}
+
+entry {
+    background-color: @base_color;
+    color: @text_color;
+    border: 1px solid @border_color;
+    border-radius: 10px;
+    padding: 8px 12px;
+    transition: all 0.2s ease;
+}
+
+entry:focus {
+    border-color: @accent_color;
+    box-shadow: 0 0 0 3px rgba(255, 143, 163, 0.2);
+}
+
+entry.search {
+    border-radius: 20px;
+    padding-left: 32px;
+}
+
+label {
+    color: @fg_color;
+}
+
+label.dim-label {
+    color: #888888;
+}
+
+notebook > header {
+    background-color: @headerbar_bg_color;
+    border-bottom: 1px solid @border_color;
+}
+
+notebook tab {
+    background-color: transparent;
+    border: none;
+    border-radius: 8px 8px 0 0;
+    padding: 10px 16px;
+    color: @fg_color;
+    transition: all 0.2s ease;
+}
+
+notebook tab:hover {
+    background-color: rgba(255, 143, 163, 0.1);
+}
+
+notebook tab:checked {
+    background-color: @bg_color;
+    color: @accent_color;
+    border-bottom: 2px solid @accent_color;
+}
+
+treeview {
+    background-color: @base_color;
+    color: @text_color;
+    border: 1px solid @border_color;
+    border-radius: 8px;
+}
+
+treeview:selected {
+    background-color: @selected_bg_color;
+    color: @selected_fg_color;
+}
+
+list {
+    background-color: @base_color;
+    border-radius: 10px;
+}
+
+list row {
+    padding: 10px 12px;
+    border-radius: 8px;
+    transition: all 0.15s ease;
+}
+
+list row:hover {
+    background-color: rgba(255, 143, 163, 0.08);
+}
+
+list row:selected {
+    background-color: @selected_bg_color;
+    color: @selected_fg_color;
+}
+
+scrollbar {
+    background-color: transparent;
+    border: none;
+    padding: 2px;
+}
+
+scrollbar slider {
+    background-color: rgba(255, 143, 163, 0.4);
+    border-radius: 8px;
+    min-width: 8px;
+    min-height: 8px;
+    transition: all 0.2s ease;
+}
+
+scrollbar slider:hover {
+    background-color: @accent_color;
+}
+
+progressbar {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    min-height: 10px;
+    overflow: hidden;
+}
+
+progressbar progress {
+    background-color: @accent_bg_color;
+    border-radius: 10px;
+    min-height: 10px;
+}
+
+scale trough {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    min-height: 6px;
+}
+
+scale highlight {
+    background-color: @accent_bg_color;
+    border-radius: 4px;
+    min-height: 6px;
+}
+
+scale slider {
+    background-color: @accent_color;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    min-width: 18px;
+    min-height: 18px;
+    box-shadow: 0 2px 6px rgba(255, 143, 163, 0.4);
+}
+
+switch {
+    background-color: #e0e0e0;
+    border-radius: 12px;
+    min-width: 44px;
+    min-height: 24px;
+    padding: 2px;
+    transition: all 0.2s ease;
+}
+
+switch:checked {
+    background-color: @accent_bg_color;
+}
+
+switch slider {
+    background-color: #ffffff;
+    border-radius: 50%;
+    min-width: 20px;
+    min-height: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+checkbutton check,
+radiobutton radio {
+    background-color: @base_color;
+    border: 2px solid @border_color;
+    border-radius: 5px;
+    min-width: 18px;
+    min-height: 18px;
+    transition: all 0.2s ease;
+}
+
+radiobutton radio {
+    border-radius: 50%;
+}
+
+checkbutton check:checked,
+radiobutton radio:checked {
+    background-color: @accent_bg_color;
+    border-color: @accent_color;
+    color: #ffffff;
+}
+
+combobox button.combo {
+    background-color: @base_color;
+    color: @text_color;
+    border: 1px solid @border_color;
+    border-radius: 10px;
+    padding: 8px 12px;
+}
+
+combobox button.combo:hover {
+    border-color: @accent_color;
+}
+
+popover {
+    background-color: @popover_bg_color;
+    border: 1px solid @border_color;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    padding: 6px;
+}
+
+popover menu {
+    background-color: transparent;
+    padding: 4px;
+}
+
+popover menuitem {
+    border-radius: 8px;
+    padding: 8px 12px;
+    transition: all 0.15s ease;
+}
+
+popover menuitem:hover {
+    background-color: rgba(255, 143, 163, 0.12);
+}
+
+menu {
+    background-color: @popover_bg_color;
+    border: 1px solid @border_color;
+    border-radius: 10px;
+    padding: 6px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+menuitem {
+    border-radius: 8px;
+    padding: 8px 12px;
+    transition: all 0.15s ease;
+}
+
+menuitem:hover {
+    background-color: rgba(255, 143, 163, 0.12);
+}
+
+.sidebar {
+    background-color: @sidebar_bg_color;
+    border-right: 1px solid @border_color;
+}
+
+.sidebar list row {
+    border-radius: 10px;
+    margin: 2px 6px;
+    padding: 10px 12px;
+}
+
+.sidebar list row:selected {
+    background-color: @accent_bg_color;
+    color: @accent_fg_color;
+}
+
+frame {
+    border: 1px solid @border_color;
+    border-radius: 12px;
+    background-color: @card_bg_color;
+    box-shadow: 0 2px 8px @card_shade_color;
+}
+
+frame > label {
+    padding: 0 8px;
+    font-weight: 600;
+    color: @accent_color;
+}
+
+infobar {
+    border-radius: 10px;
+    border: none;
+    padding: 8px 12px;
+}
+
+infobar.info {
+    background-color: @accent_bg_color;
+    color: @accent_fg_color;
+}
+
+infobar.warning {
+    background-color: @warning_bg_color;
+    color: @warning_fg_color;
+}
+
+infobar.error {
+    background-color: @error_bg_color;
+    color: @error_fg_color;
+}
+
+tooltip {
+    background-color: @tooltip_bg_color;
+    color: @tooltip_fg_color;
+    border: 1px solid @border_color;
+    border-radius: 8px;
+    padding: 6px 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+calendar {
+    background-color: @base_color;
+    border: 1px solid @border_color;
+    border-radius: 10px;
+    padding: 8px;
+}
+
+calendar:selected {
+    background-color: @accent_bg_color;
+    color: @accent_fg_color;
+    border-radius: 6px;
+}
+
+spinbutton {
+    background-color: @base_color;
+    border: 1px solid @border_color;
+    border-radius: 10px;
+}
+
+spinbutton:focus {
+    border-color: @accent_color;
+    box-shadow: 0 0 0 3px rgba(255, 143, 163, 0.2);
+}
+
+levelbar trough {
+    background-color: #f0f0f0;
+    border-radius: 6px;
+    min-height: 8px;
+}
+
+levelbar block {
+    background-color: @accent_bg_color;
+    border-radius: 6px;
+    min-height: 8px;
+}
+
+textview {
+    background-color: @base_color;
+    color: @text_color;
+    border: 1px solid @border_color;
+    border-radius: 10px;
+    padding: 8px;
+}
+
+stacksidebar {
+    background-color: @sidebar_bg_color;
+    border-right: 1px solid @border_color;
+}
+
+stacksidebar list row {
+    border-radius: 10px;
+    margin: 2px 6px;
+    padding: 10px 12px;
+}
+
+stacksidebar list row:selected {
+    background-color: @accent_bg_color;
+    color: @accent_fg_color;
+}
+
+actionbar {
+    background-color: @headerbar_bg_color;
+    border-top: 1px solid @border_color;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+    padding: 8px 10px;
+}
+
+dialog {
+    background-color: @dialog_bg_color;
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+separator {
+    background-color: @border_color;
+    min-height: 1px;
+    min-width: 1px;
+}
+
+statusbar {
+    background-color: @headerbar_bg_color;
+    border-top: 1px solid @border_color;
+    padding: 4px 10px;
+    font-size: 0.9em;
+    color: #888888;
+}
+
+*:selected {
+    background-color: @selected_bg_color;
+    color: @selected_fg_color;
+}
+
+*:focus {
+    outline: none;
+}
+
+button, entry, combobox, spinbutton, switch, scale, checkbutton, radiobutton {
+    transition: all 0.2s ease;
+}
+
+window {
+    transition: box-shadow 0.3s ease;
+}
+
+.title {
+    font-weight: 600;
+}
+
+.title-1 {
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+.title-2 {
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.dim-label {
+    color: #999999;
+    font-size: 0.9em;
+}
+
+.accent {
+    color: @accent_color;
+}
+
+.success {
+    color: @success_color;
+}
+
+.warning {
+    color: @warning_color;
+}
+
+.error {
+    color: @error_color;
+}

@@ -1,0 +1,22 @@
+# Large media files (kept locally, generated from source)
+*.iso
+assets/wallpaper_4k_loop.mp4
+assets/wallpaper_4k_loop_dark.mp4
+rootfs/usr/share/backgrounds/yulo/wallpaper_4k_loop.mp4
+rootfs/usr/share/backgrounds/yulo/wallpaper_4k_loop_dark.mp4
+assets/source_video.mp4
+assets/page.html
+assets/rendered_dom.html
+assets/wget.log
+assets/frames/
+assets/seam/
+assets/view_t*.jpg
+assets/frame_sample.jpg
+assets/logo_raw.png
+assets/logo_cutout_check.png
+
+# Build artifacts
+build/
+*.tmp
+*.log
+.DS_Store

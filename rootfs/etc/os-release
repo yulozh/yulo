@@ -1,0 +1,12 @@
+PRETTY_NAME="yulo 1.0 (Sakura)"
+NAME="yulo"
+VERSION_ID="1.0"
+VERSION="1.0 (Sakura)"
+VERSION_CODENAME=sakura
+ID=yulo
+ID_LIKE=ubuntu
+ANSI_COLOR="1;35"
+HOME_URL="https://github.com/yulozh/yulo"
+SUPPORT_URL="https://github.com/yulozh/yulo/issues"
+BUG_REPORT_URL="https://github.com/yulozh/yulo/issues"
+LOGO=/usr/share/pixmaps/yulo-logo.png

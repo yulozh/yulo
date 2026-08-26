@@ -1,0 +1,11 @@
+{
+    "name": "Yulo Shell",
+    "description": "Win11-style bottom taskbar with sakura-pink theme, sun/moon dark mode toggle, input method switcher, and scale-on-close window animations",
+    "uuid": "yulo-shell@yulo.dev",
+    "shell-version": ["46", "47", "48"],
+    "version": 1.0,
+    "author": "yulo",
+    "url": "https://github.com/yulozh/yulo",
+    "settings-schema": "org.gnome.shell.extensions.yulo-shell",
+    "gettext-domain": "yulo-shell"
+}

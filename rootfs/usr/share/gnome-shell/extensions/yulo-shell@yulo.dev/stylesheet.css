@@ -1,0 +1,197 @@
+/* Yulo Shell Extension Stylesheet */
+
+/* Bottom Panel */
+.yulo-bottom-panel {
+    background-color: rgba(255, 245, 247, 0.88);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-top: 1px solid rgba(255, 214, 222, 0.6);
+    box-shadow: 0 -2px 16px rgba(255, 143, 163, 0.12);
+    spacing: 8px;
+    padding: 0 12px;
+}
+
+.yulo-panel-left,
+.yulo-panel-center,
+.yulo-panel-right {
+    spacing: 6px;
+}
+
+/* Start Button */
+.yulo-start-button {
+    background-color: transparent;
+    border: none;
+    border-radius: 10px;
+    padding: 4px;
+    width: 40px;
+    height: 40px;
+    transition: all 0.2s ease;
+}
+
+.yulo-start-button:hover {
+    background-color: rgba(255, 143, 163, 0.18);
+}
+
+.yulo-start-button:active {
+    background-color: rgba(255, 143, 163, 0.3);
+}
+
+.yulo-start-icon {
+    color: #ff8fa3;
+}
+
+/* App Dock */
+.yulo-app-dock {
+    spacing: 4px;
+    padding: 0 8px;
+}
+
+.yulo-dock-app {
+    background-color: transparent;
+    border: none;
+    border-radius: 10px;
+    padding: 4px;
+    width: 40px;
+    height: 40px;
+    transition: all 0.2s ease;
+}
+
+.yulo-dock-app:hover {
+    background-color: rgba(255, 143, 163, 0.18);
+    transform: scale(1.1);
+}
+
+.yulo-dock-app:active {
+    background-color: rgba(255, 143, 163, 0.3);
+    transform: scale(0.95);
+}
+
+.yulo-dock-app-running {
+    border-bottom: 3px solid #ff8fa3;
+    border-radius: 10px 10px 6px 6px;
+}
+
+/* Dark Toggle */
+.yulo-dark-toggle {
+    background-color: transparent;
+    border: none;
+    border-radius: 10px;
+    padding: 4px;
+    width: 36px;
+    height: 36px;
+    transition: all 0.2s ease;
+}
+
+.yulo-dark-toggle:hover {
+    background-color: rgba(255, 143, 163, 0.18);
+}
+
+.yulo-dark-toggle:active {
+    background-color: rgba(255, 143, 163, 0.3);
+}
+
+.yulo-dark-toggle-active {
+    background-color: rgba(255, 143, 163, 0.25);
+}
+
+.yulo-toggle-icon {
+    color: #ff8fa3;
+}
+
+/* Input Indicator */
+.yulo-input-indicator {
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 2px 6px;
+    width: 40px;
+    height: 36px;
+    transition: all 0.2s ease;
+}
+
+.yulo-input-indicator:hover {
+    background-color: rgba(255, 143, 163, 0.18);
+}
+
+.yulo-input-label {
+    color: #ff8fa3;
+    font-weight: 600;
+    font-size: 0.85em;
+}
+
+/* Clock Widget */
+.yulo-clock-widget {
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 2px 10px;
+    transition: all 0.2s ease;
+}
+
+.yulo-clock-widget:hover {
+    background-color: rgba(255, 143, 163, 0.18);
+}
+
+.yulo-clock-time {
+    color: #2d2d2d;
+    font-weight: 600;
+    font-size: 0.95em;
+    font-feature-settings: "tnum";
+    text-align: center;
+}
+
+.yulo-clock-date {
+    color: #888888;
+    font-size: 0.75em;
+    text-align: center;
+}
+
+/* Power Button */
+.yulo-power-button {
+    background-color: transparent;
+    border: none;
+    border-radius: 10px;
+    padding: 4px;
+    width: 36px;
+    height: 36px;
+    transition: all 0.2s ease;
+}
+
+.yulo-power-button:hover {
+    background-color: rgba(255, 143, 163, 0.18);
+}
+
+.yulo-power-button:active {
+    background-color: rgba(255, 143, 163, 0.3);
+}
+
+.yulo-power-icon {
+    color: #ff8fa3;
+}
+
+/* Dark mode overrides for panel */
+.yulo-bottom-panel.dark {
+    background-color: rgba(26, 26, 46, 0.88);
+    border-top: 1px solid rgba(255, 143, 163, 0.3);
+    box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.3);
+}
+
+.yulo-bottom-panel.dark .yulo-clock-time {
+    color: #e0e0e0;
+}
+
+.yulo-bottom-panel.dark .yulo-clock-date {
+    color: #999999;
+}
+
+.yulo-bottom-panel.dark .yulo-dock-app:hover {
+    background-color: rgba(255, 143, 163, 0.25);
+}
+
+.yulo-bottom-panel.dark .yulo-start-button:hover,
+.yulo-bottom-panel.dark .yulo-dark-toggle:hover,
+.yulo-bottom-panel.dark .yulo-input-indicator:hover,
+.yulo-bottom-panel.dark .yulo-clock-widget:hover,
+.yulo-bottom-panel.dark .yulo-power-button:hover {
+    background-color: rgba(255, 143, 163, 0.25);
+}

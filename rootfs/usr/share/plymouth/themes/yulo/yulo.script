@@ -1,0 +1,71 @@
+# Yulo Plymouth Boot Theme Script
+# Sakura-pink themed boot animation
+
+logo_image = Image("logo.png");
+logo_sprite = Sprite(logo_image);
+
+screen_width = Window.GetWidth();
+screen_height = Window.GetHeight();
+
+# Center logo
+logo_width = logo_image.GetWidth();
+logo_height = logo_image.GetHeight();
+logo_x = (screen_width - logo_width) / 2;
+logo_y = (screen_height - logo_height) / 2 - 40;
+
+logo_sprite.SetX(logo_x);
+logo_sprite.SetY(logo_y);
+logo_sprite.SetZ(10);
+
+# Progress bar
+bar_width = 300;
+bar_height = 6;
+bar_x = (screen_width - bar_width) / 2;
+bar_y = logo_y + logo_height + 30;
+
+bar_bg = Image(bar_width, bar_height);
+bar_bg.Fill(0.85, 0.85, 0.9, 0.5);
+bar_bg_sprite = Sprite(bar_bg);
+bar_bg_sprite.SetX(bar_x);
+bar_bg_sprite.SetY(bar_y);
+bar_bg_sprite.SetZ(11);
+
+bar_fg = Image(1, bar_height);
+bar_fg.Fill(1.0, 0.56, 0.64, 1.0);
+bar_fg_sprite = Sprite(bar_fg);
+bar_fg_sprite.SetX(bar_x);
+bar_fg_sprite.SetY(bar_y);
+bar_fg_sprite.SetZ(12);
+
+# Loading text
+loading_text = Text("正在启动 yulo...");
+loading_sprite = Sprite(loading_text);
+loading_sprite.SetX((screen_width - loading_text.GetWidth()) / 2);
+loading_sprite.SetY(bar_y + bar_height + 16);
+loading_sprite.SetZ(11);
+
+progress = 0;
+
+Plymouth.SetUpdateStatusFunction(Update);
+
+function Update(status) {
+    if (status == "normal") {
+        progress = progress + 0.02;
+        if (progress > 0.9) progress = 0.9;
+    } else if (status == "shutdown") {
+        loading_text.SetText("正在关闭 yulo...");
+        progress = progress - 0.02;
+        if (progress < 0) progress = 0;
+    }
+
+    current_width = bar_width * progress;
+    if (current_width < 1) current_width = 1;
+    bar_fg_sprite.SetWidth(current_width);
+}
+
+function Quit() {
+    logo_sprite.SetOpacity(0);
+    bar_bg_sprite.SetOpacity(0);
+    bar_fg_sprite.SetOpacity(0);
+    loading_sprite.SetOpacity(0);
+}

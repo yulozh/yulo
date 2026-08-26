@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="hexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a8d8ea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7ec8e3;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="innerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e8f4f8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d4eef5;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Rounded hexagon outer -->
+  <path d="M128 20 L216 68 L216 188 L128 236 L40 188 L40 68 Z" 
+        fill="url(#hexGrad)" rx="20" ry="20"
+        style="stroke:#5fb8d4;stroke-width:3;"/>
+  <!-- Inner hexagon -->
+  <path d="M128 45 L196 82 L196 174 L128 211 L60 174 L60 82 Z" 
+        fill="url(#innerGrad)" rx="15" ry="15"
+        style="stroke:#ffffff;stroke-width:4;"/>
+  <!-- yulo text -->
+  <text x="128" y="155" 
+        font-family="Cantarell, sans-serif" 
+        font-size="52" 
+        font-weight="600" 
+        fill="#5fa8c4" 
+        text-anchor="middle">yulo</text>
+</svg>
