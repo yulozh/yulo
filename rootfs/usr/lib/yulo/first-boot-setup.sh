@@ -1,5 +1,5 @@
 #!/bin/bash
-# yulo OS First-Boot Setup Script (XFCE Edition)
+# Yulo OS First-Boot Setup Script
 # Runs once on first boot to apply all customizations
 
 set -e
@@ -12,111 +12,100 @@ fi
 
 mkdir -p /var/lib/yulo
 
-echo "[yulo] Running first-boot setup (XFCE)..."
+echo "[yulo] Running first-boot setup..."
 
-# 1. 设置默认应用
-echo "[yulo] Setting default applications..."
-mkdir -p /etc/xdg
-cat > /etc/xdg/mimeapps.list <<'MIMEEOF'
-[Default Applications]
-x-scheme-handler/http=chromium-browser.desktop
-x-scheme-handler/https=chromium-browser.desktop
-text/html=chromium-browser.desktop
-inode/directory=thunar.desktop
-text/plain=mousepad.desktop
-image/jpeg=ristretto.desktop
-image/png=ristretto.desktop
-MIMEEOF
+# 1. Compile dconf database
+echo "[yulo] Compiling dconf database..."
+dconf update 2>/dev/null || true
 
-# 2. 配置 LightDM
-echo "[yulo] Configuring LightDM..."
-mkdir -p /etc/lightdm/lightdm.conf.d
-cat > /etc/lightdm/lightdm.conf.d/90-yulo.conf <<'LIGHTDMEOF'
-[Seat:*]
-user-session=xfce
-greeter-session=lightdm-gtk-greeter
-greeter-hide-users=false
-greeter-show-manual-login=true
-allow-guest=false
-LIGHTDMEOF
+# 2. Set Plymouth theme
+echo "[yulo] Setting Plymouth boot theme..."
+if command -v plymouth-set-default-theme &>/dev/null; then
+    plymouth-set-default-theme -R yulo 2>/dev/null || plymouth-set-default-theme yulo 2>/dev/null || true
+fi
 
-# 3. 配置 LightDM 欢迎界面
-echo "[yulo] Setting LightDM theme..."
-cat > /etc/lightdm/lightdm-gtk-greeter.conf <<'GREETEREOF'
-[greeter]
-background=/usr/share/backgrounds/yulo/wallpaper_4k_poster.png
-theme-name=Yulo
-icon-theme-name=Yulo
-font-name=Cantarell 11
-xft-antialias=true
-xft-hintstyle=hintslight
-xft-rgba=rgb
-indicators=~host;~spacer;~clock;~spacer;~session;~power
-clock-format=%H:%M
-GREETEREOF
+# 3. Set default GTK theme for all users
+echo "[yulo] Setting default GTK theme..."
+mkdir -p /etc/gtk-3.0
+cat > /etc/gtk-3.0/settings.ini <<'GTKEOF'
+[Settings]
+gtk-theme-name=Yulo
+gtk-icon-theme-name=Yulo
+gtk-font-name=Cantarell 11
+gtk-cursor-theme-name=Yaru
+gtk-cursor-theme-size=0
+gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
+gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
+gtk-button-images=1
+gtk-menu-images=1
+gtk-enable-event-sounds=1
+gtk-enable-input-feedback-sounds=0
+gtk-xft-antialias=1
+gtk-xft-hinting=1
+gtk-xft-hintstyle=hintslight
+gtk-xft-rgba=rgb
+gtk-application-prefer-dark-theme=0
+GTKEOF
 
-# 4. 设置环境变量（输入法）
-echo "[yulo] Setting environment variables..."
-cat > /etc/environment <<'ENVEOF'
-PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
-GTK_IM_MODULE=fcitx
-QT_IM_MODULE=fcitx
-XMODIFIERS=@im=fcitx
-SDL_IM_MODULE=fcitx
-ENVEOF
+# 4. Set default wallpaper for GDM
+echo "[yulo] Setting GDM wallpaper..."
+mkdir -p /etc/dconf/profile
+cat > /etc/dconf/profile/gdm <<'GDMPROF'
+user
+system-db:gdm
+file-db:/usr/share/gdm/greeter-dconf-defaults
+GDMPROF
 
-# 5. 配置 Fcitx5 自动启动
-echo "[yulo] Configuring Fcitx5 autostart..."
-mkdir -p /etc/xdg/autostart
-cat > /etc/xdg/autostart/fcitx5.desktop <<'FCITXEOF'
-[Desktop Entry]
-Version=1.0
-Name=Fcitx 5
-GenericName=Input Method
-Comment=Start Input Method
-Exec=fcitx5
-Icon=fcitx
-Terminal=false
-Type=Application
-Categories=System;Utility;
-StartupNotify=false
-NoDisplay=true
-Hidden=false
-FCITXEOF
+mkdir -p /etc/dconf/db/gdm.d
+cat > /etc/dconf/db/gdm.d/01-yulo-gdm <<'GDMCONF'
+[org/gnome/desktop/background]
+picture-uri='file:///usr/share/backgrounds/yulo/wallpaper_4k_poster.png'
+picture-options='zoom'
 
-# 6. 编译图标主题缓存
+[org/gnome/desktop/interface]
+gtk-theme='Yulo'
+icon-theme='Yulo'
+color-scheme='prefer-light'
+
+[org/gnome/login-screen]
+logo='/usr/share/pixmaps/yulo-logo.png'
+disable-restart-buttons=false
+disable-user-list=false
+banner-message-enable=false
+GDMCONF
+dconf update 2>/dev/null || true
+
+# 5. Enable GNOME extension for all users
+echo "[yulo] Enabling yulo-shell extension..."
+mkdir -p /etc/dconf/db/local.d
+cat > /etc/dconf/db/local.d/01-extensions <<'EXTCONF'
+[org/gnome/shell]
+enabled-extensions=['yulo-shell@yulo.dev','ubuntu-appindicators@ubuntu.com']
+disable-user-extensions=false
+EXTCONF
+dconf update 2>/dev/null || true
+
+# 6. Compile icon theme cache
 echo "[yulo] Compiling icon theme cache..."
 if command -v gtk-update-icon-cache &>/dev/null; then
     gtk-update-icon-cache -f -t /usr/share/icons/Yulo 2>/dev/null || true
 fi
 
-# 7. 设置主机名
+# 7. Set hostname
 echo "[yulo] Setting hostname..."
 hostnamectl set-hostname yulo 2>/dev/null || echo "yulo" > /etc/hostname || true
 
-# 8. 安装 logo
+# 8. Copy logo to pixmaps
 echo "[yulo] Installing logo..."
 cp /usr/share/plymouth/themes/yulo/logo.png /usr/share/pixmaps/yulo-logo.png 2>/dev/null || true
 
-# 9. 设置文件权限
-echo "[yulo] Setting file permissions..."
+# 9. Set file permissions
+echo "[yulo] Setting permissions..."
 chmod -R a+rX /usr/share/themes/Yulo /usr/share/themes/Yulo-Dark /usr/share/icons/Yulo /usr/share/backgrounds/yulo 2>/dev/null || true
 chmod a+r /usr/share/pixmaps/yulo-logo.png 2>/dev/null || true
-chmod +x /usr/bin/yulo-dark-mode-toggle 2>/dev/null || true
 
-# 10. 为默认用户复制配置
-echo "[yulo] Copying config to default user..."
-if [ -d "/home/user" ]; then
-    cp -r /etc/skel/.config /home/user/ 2>/dev/null || true
-    chown -R user:user /home/user/.config 2>/dev/null || true
-fi
-
-# 11. 启用 LightDM
-echo "[yulo] Enabling LightDM..."
-systemctl enable lightdm 2>/dev/null || true
-
-# 12. 标记完成
+# 10. Mark as done
 touch "$MARKER"
-echo "[yulo] First-boot setup complete (XFCE Edition)."
+echo "[yulo] First-boot setup complete."
 
 exit 0

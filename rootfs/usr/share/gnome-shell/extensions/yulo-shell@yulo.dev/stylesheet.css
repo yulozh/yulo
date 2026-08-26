@@ -1,0 +1,192 @@
+/* Yulo Shell Extension - Modern minimal taskbar */
+
+.yulo-bottom-panel {
+    background-color: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 -1px 12px rgba(0, 0, 0, 0.06);
+    spacing: 6px;
+    padding: 0 14px;
+}
+
+.yulo-panel-left,
+.yulo-panel-center,
+.yulo-panel-right {
+    spacing: 4px;
+}
+
+/* Start button */
+.yulo-start-button {
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 4px;
+    width: 38px;
+    height: 38px;
+    transition: background-color 0.15s ease;
+}
+.yulo-start-button:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+.yulo-start-button:active {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.yulo-start-icon {
+    color: #ff8fa3;
+}
+
+/* App dock */
+.yulo-app-dock {
+    spacing: 2px;
+    padding: 0 6px;
+}
+.yulo-dock-app {
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 4px;
+    width: 38px;
+    height: 38px;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+}
+.yulo-dock-app:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+}
+.yulo-dock-app:active {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: scale(0.95);
+}
+.yulo-dock-app-running {
+    position: relative;
+}
+.yulo-dock-app-running::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 2px;
+    background-color: #ff8fa3;
+    border-radius: 1px;
+}
+
+/* Dark toggle */
+.yulo-dark-toggle {
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 4px;
+    width: 36px;
+    height: 36px;
+    transition: background-color 0.15s ease;
+}
+.yulo-dark-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+.yulo-dark-toggle:active {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.yulo-toggle-icon {
+    color: #555;
+}
+
+/* Input indicator */
+.yulo-input-indicator {
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 2px 8px;
+    height: 36px;
+    transition: background-color 0.15s ease;
+}
+.yulo-input-indicator:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+.yulo-input-label {
+    color: #555;
+    font-weight: 600;
+    font-size: 0.85em;
+}
+
+/* Clock */
+.yulo-clock-widget {
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 2px 12px;
+    transition: background-color 0.15s ease;
+}
+.yulo-clock-widget:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+.yulo-clock-time {
+    color: #2d2d2d;
+    font-weight: 500;
+    font-size: 0.95em;
+    font-feature-settings: "tnum";
+    text-align: center;
+    line-height: 1.2;
+}
+.yulo-clock-date {
+    color: #888;
+    font-size: 0.72em;
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* Power button */
+.yulo-power-button {
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 4px;
+    width: 36px;
+    height: 36px;
+    transition: background-color 0.15s ease;
+}
+.yulo-power-button:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+.yulo-power-button:active {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.yulo-power-icon {
+    color: #555;
+}
+
+/* ===== Dark mode ===== */
+.yulo-bottom-panel.dark {
+    background-color: rgba(28, 28, 32, 0.78);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -1px 12px rgba(0, 0, 0, 0.3);
+}
+.yulo-bottom-panel.dark .yulo-clock-time {
+    color: #e0e0e0;
+}
+.yulo-bottom-panel.dark .yulo-clock-date {
+    color: #888;
+}
+.yulo-bottom-panel.dark .yulo-toggle-icon,
+.yulo-bottom-panel.dark .yulo-input-label,
+.yulo-bottom-panel.dark .yulo-power-icon {
+    color: #bbb;
+}
+.yulo-bottom-panel.dark .yulo-start-button:hover,
+.yulo-bottom-panel.dark .yulo-dock-app:hover,
+.yulo-bottom-panel.dark .yulo-dark-toggle:hover,
+.yulo-bottom-panel.dark .yulo-input-indicator:hover,
+.yulo-bottom-panel.dark .yulo-clock-widget:hover,
+.yulo-bottom-panel.dark .yulo-power-button:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+.yulo-bottom-panel.dark .yulo-start-button:active,
+.yulo-bottom-panel.dark .yulo-dock-app:active,
+.yulo-bottom-panel.dark .yulo-dark-toggle:active,
+.yulo-bottom-panel.dark .yulo-input-indicator:active,
+.yulo-bottom-panel.dark .yulo-clock-widget:active,
+.yulo-bottom-panel.dark .yulo-power-button:active {
+    background-color: rgba(255, 255, 255, 0.12);
+}
