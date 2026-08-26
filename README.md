@@ -14,31 +14,25 @@
 
 ## 快速安装
 
-在一台已经装好 Ubuntu 26.04 的电脑或虚拟机上：
+### 方式一：一键生成完整 ISO（推荐）
+
+在一台 Ubuntu 机器上（22.04 以上都行），解压这个包，跑：
 
 ```bash
-# 1. 下载这个仓库
-git clone https://github.com/yulozh/yulo.git
-cd yulo
+sudo ./build-full-iso.sh
+```
 
-# 2. 一键安装（需要管理员密码）
+脚本会自动下载 Ubuntu 26.04 ISO（约 6.1GB），把 yulo 定制层打进去，输出 `yulo-1.0-desktop-amd64.iso`（约 6.5GB）。拿到 ISO 就能用虚拟机或 U 盘安装了。
+
+### 方式二：在现有 Ubuntu 上安装
+
+在已经装好 Ubuntu 26.04 的电脑或虚拟机上：
+
+```bash
 sudo ./install.sh
-
-# 3. 安装完后注销再登录，主题就生效了
 ```
 
-安装脚本会自动做这些事：复制主题和壁纸、设置默认配置、启用状态栏扩展、配置启动画面、跑一遍安全加固。
-
-## 手动安装（不想用脚本）
-
-```bash
-sudo cp -r rootfs/* /
-sudo /usr/lib/yulo/first-boot-setup.sh
-sudo /usr/lib/yulo/security-hardening.sh
-gnome-extensions enable yulo-shell@yulo.dev
-```
-
-然后注销重新登录。
+装完注销再登录，主题就生效了。
 
 ## 常用操作
 
