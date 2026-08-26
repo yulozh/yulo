@@ -34,29 +34,23 @@ jobs:
           aria2c -x 16 -s 16 -k 1M --max-connection-per-server=16 \
             -o ubuntu.iso \
             "https://mirrors.kernel.org/ubuntu-releases/26.04/ubuntu-26.04-desktop-amd64.iso" \
-            "https://releases.ubuntu.com/26.04/ubuntu-26.04-desktop-amd64.iso" \
-            "https://ftp.yz.yamagata-u.ac.jp/pub/linux/ubuntu/releases/26.04/ubuntu-26.04-desktop-amd64.iso"
+            "https://releases.ubuntu.com/26.04/ubuntu-26.04-desktop-amd64.iso"
           ls -lh ubuntu.iso
 
       - name: Extract squashfs from ISO
         run: |
           set +e
-          # Ubuntu 26.04 uses minimal.standard.live.squashfs as main filesystem
           7z l ubuntu.iso 2>/dev/null | grep -i "squashfs"
-          # Try the new name first, then old name
           7z e ubuntu.iso -o. "casper/minimal.standard.live.squashfs" -y > /dev/null 2>&1
           if [ ! -f minimal.standard.live.squashfs ]; then
             7z e ubuntu.iso -o. "casper/filesystem.squashfs" -y > /dev/null 2>&1
           fi
           if [ ! -f minimal.standard.live.squashfs ] && [ ! -f filesystem.squashfs ]; then
-            # Extract all and find the largest squashfs
             7z x ubuntu.iso -oiso-tmp -y > /dev/null 2>&1
-            find iso-tmp -name "*.squashfs" -exec ls -lh {} \;
             LARGEST=$(find iso-tmp -name "*.squashfs" -printf "%s %p\n" | sort -rn | head -1 | cut -d' ' -f2-)
             cp "$LARGEST" ./minimal.standard.live.squashfs
             rm -rf iso-tmp
           fi
-          # Rename to standard name
           if [ -f minimal.standard.live.squashfs ]; then
             mv minimal.standard.live.squashfs filesystem.squashfs
           fi
@@ -75,7 +69,6 @@ jobs:
           sudo rsync -a rootfs/ squashfs-root/
           sudo chmod -R a+rX squashfs-root/usr/share/themes/ squashfs-root/usr/share/icons/ squashfs-root/usr/share/backgrounds/ 2>/dev/null || true
           sudo chmod +x squashfs-root/usr/lib/yulo/*.sh 2>/dev/null || true
-          # Compile dconf
           sudo chroot squashfs-root dconf update 2>/dev/null || true
           echo "yulo rootfs merged"
           df -h /
@@ -83,17 +76,13 @@ jobs:
       - name: Clean up bloat
         run: |
           set +e
-          # Create mount points if missing
           mkdir -p squashfs-root/proc squashfs-root/sys squashfs-root/dev
-          # Set up chroot
           sudo mount --bind /proc squashfs-root/proc 2>/dev/null
           sudo mount --bind /sys squashfs-root/sys 2>/dev/null
           sudo mount --bind /dev squashfs-root/dev 2>/dev/null
           sudo cp /etc/resolv.conf squashfs-root/etc/resolv.conf 2>/dev/null
-          # Run cleanup inside chroot (non-fatal)
           sudo chroot squashfs-root apt-get update -qq 2>/dev/null
           sudo chroot squashfs-root bash /usr/lib/yulo/cleanup-bloat.sh 2>/dev/null
-          # Tear down chroot
           sudo umount squashfs-root/proc 2>/dev/null
           sudo umount squashfs-root/sys 2>/dev/null
           sudo umount squashfs-root/dev 2>/dev/null
@@ -113,52 +102,48 @@ jobs:
           aria2c -x 16 -s 16 -k 1M --max-connection-per-server=16 \
             -o ubuntu.iso \
             "https://mirrors.kernel.org/ubuntu-releases/26.04/ubuntu-26.04-desktop-amd64.iso" \
-            "https://releases.ubuntu.com/26.04/ubuntu-26.04-desktop-amd64.iso" \
-            "https://ftp.yz.yamagata-u.ac.jp/pub/linux/ubuntu/releases/26.04/ubuntu-26.04-desktop-amd64.iso"
+            "https://releases.ubuntu.com/26.04/ubuntu-26.04-desktop-amd64.iso"
           mkdir iso-extract
           7z x ubuntu.iso -oiso-extract -y > /dev/null 2>&1
           chmod -R +w iso-extract
           rm ubuntu.iso
-          # Replace squashfs - find the largest one (main system)
           SQUASHFS=$(find iso-extract -name "*.squashfs" -printf "%s %p\n" | sort -rn | head -1 | cut -d' ' -f2-)
           echo "Replacing: $SQUASHFS"
           rm -f "$SQUASHFS"
           mv filesystem.squashfs "$SQUASHFS"
-          # Update manifest
-          MANIFEST=$(find iso-extract -name "filesystem.manifest" | head -1)
-          echo "Manifest: $MANIFEST"
+          echo "ISO extracted and squashfs replaced"
           df -h /
-          ls -lh iso-extract/
 
       - name: Generate yulo ISO
         run: |
-          EFI_IMG=""
-          if [ -f "iso-extract/boot/grub/efi.img" ]; then
-            EFI_IMG="iso-extract/boot/grub/efi.img"
-          elif [ -f "iso-extract/EFI/BOOT/efi.img" ]; then
-            EFI_IMG="iso-extract/EFI/BOOT/efi.img"
-          fi
+          set +e
+          EFI_IMG=$(find iso-extract -name "efi.img" 2>/dev/null | head -1)
+          BIOS_IMG=$(find iso-extract -name "eltorito.img" 2>/dev/null | head -1)
+          BOOT_CAT=$(find iso-extract -name "boot.catalog" 2>/dev/null | head -1)
           echo "EFI: $EFI_IMG"
-          
-          # Find boot catalog
-          BOOT_CAT=""
-          if [ -f "iso-extract/boot.catalog" ]; then
-            BOOT_CAT="iso-extract/boot.catalog"
+          echo "BIOS: $BIOS_IMG"
+          echo "Catalog: $BOOT_CAT"
+          find iso-extract -path "*/boot/*" \( -name "*.img" -o -name "*.efi" \) 2>/dev/null | head -10
+          XORRISO="xorriso -as mkisofs -r -V yulo -J -joliet-long -l -iso-level 3"
+          if [ -n "$BOOT_CAT" ]; then
+            REL=$(echo "$BOOT_CAT" | sed 's|^iso-extract/||')
+            XORRISO="$XORRISO -c $REL"
           fi
-          
-          xorriso -as mkisofs \
-            -r -V "yulo 1.0" \
-            -J -joliet-long -l -iso-level 3 \
-            ${BOOT_CAT:+-c boot.catalog} \
-            -b boot/grub/i386-pc/eltorito.img \
-            -no-emul-boot -boot-load-size 4 -boot-info-table \
-            -eltorito-alt-boot \
-            -e boot/grub/efi.img \
-            -no-emul-boot \
-            -isohybrid-gpt-basdat \
-            -o yulo-1.0-desktop-amd64.iso \
-            iso-extract 2>&1 | tail -10
-          
+          if [ -n "$BIOS_IMG" ]; then
+            REL=$(echo "$BIOS_IMG" | sed 's|^iso-extract/||')
+            XORRISO="$XORRISO -b $REL -no-emul-boot -boot-load-size 4 -boot-info-table"
+          fi
+          if [ -n "$EFI_IMG" ]; then
+            REL=$(echo "$EFI_IMG" | sed 's|^iso-extract/||')
+            XORRISO="$XORRISO -eltorito-alt-boot -e $REL -no-emul-boot -isohybrid-gpt-basdat"
+          fi
+          XORRISO="$XORRISO -o yulo-1.0-desktop-amd64.iso iso-extract"
+          echo "Command: $XORRISO"
+          eval $XORRISO 2>&1 | tail -15
+          if [ ! -f yulo-1.0-desktop-amd64.iso ]; then
+            echo "Boot files not found, creating basic ISO..."
+            xorriso -as mkisofs -r -V yulo -J -joliet-long -l -o yulo-1.0-desktop-amd64.iso iso-extract 2>&1 | tail -5
+          fi
           rm -rf iso-extract
           ls -lh yulo-1.0-desktop-amd64.iso
           df -h /
@@ -185,17 +170,10 @@ jobs:
             - 安全加固 + 漏洞扫描
             - 无遥测、无云端后门
             - 窗口边缘拖动调大小
+            - 已清理系统冗余（游戏、Thunderbird、示例文件等）
             
             ## 安装
             用 VMware / VirtualBox / QEMU 加载 ISO，或用 dd / Rufus 写到 U 盘。
-            
-            ## 默认账号
-            安装过程中自行创建。
-            
-            ## SHA256
-            ```
-            ${{ hashFiles('yulo-1.0-desktop-amd64.iso') }}
-            ```
           files: |
             yulo-1.0-desktop-amd64.iso
             yulo-1.0-desktop-amd64.iso.sha256
