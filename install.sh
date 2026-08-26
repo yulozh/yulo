@@ -49,6 +49,13 @@ log_info "[1/8] Copying yulo files to system..."
 cp -a "${ROOTFS}/." /
 log_info "  Files copied"
 
+# Clean up Ubuntu bloat (games, thunderbird, examples, extra locales)
+log_info "Cleaning up Ubuntu bloat..."
+if [ -f /usr/lib/yulo/cleanup-bloat.sh ]; then
+    bash /usr/lib/yulo/cleanup-bloat.sh 2>/dev/null || true
+fi
+log_info "  Bloat cleaned"
+
 # Step 2: Set permissions
 log_info "[2/8] Setting file permissions..."
 chmod -R a+rX /usr/share/themes/Yulo /usr/share/themes/Yulo-Dark /usr/share/icons/Yulo /usr/share/backgrounds/yulo 2>/dev/null || true

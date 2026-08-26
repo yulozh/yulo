@@ -61,6 +61,24 @@ jobs:
           echo "yulo rootfs merged"
           df -h /
 
+      - name: Clean up bloat
+        run: |
+          # Set up chroot
+          sudo mount --bind /proc squashfs-root/proc
+          sudo mount --bind /sys squashfs-root/sys
+          sudo mount --bind /dev squashfs-root/dev
+          sudo cp /etc/resolv.conf squashfs-root/etc/resolv.conf
+          # Run cleanup inside chroot
+          sudo chroot squashfs-root apt-get update -qq 2>/dev/null || true
+          sudo chroot squashfs-root bash /usr/lib/yulo/cleanup-bloat.sh 2>/dev/null || true
+          # Tear down chroot
+          sudo umount squashfs-root/proc 2>/dev/null || true
+          sudo umount squashfs-root/sys 2>/dev/null || true
+          sudo umount squashfs-root/dev 2>/dev/null || true
+          sudo rm -f squashfs-root/etc/resolv.conf
+          echo "bloat cleaned"
+          df -h /
+
       - name: Repack squashfs
         run: |
           sudo mksquashfs squashfs-root filesystem.squashfs -comp xz -b 1M -noappend
