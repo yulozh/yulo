@@ -158,12 +158,7 @@ jobs:
         run: |
           split -b 1500M yulo-1.0-desktop-amd64.iso yulo-1.0-desktop-amd64.iso.part-
           ls -lh yulo-1.0-desktop-amd64.iso.part-*
-          cat > recombine.sh << 'EOF'
-#!/bin/bash
-cat yulo-1.0-desktop-amd64.iso.part-* > yulo-1.0-desktop-amd64.iso
-sha256sum -c yulo-1.0-desktop-amd64.iso.sha256
-echo "Done!"
-EOF
+          printf '#!/bin/bash\ncat yulo-1.0-desktop-amd64.iso.part-* > yulo-1.0-desktop-amd64.iso\nsha256sum -c yulo-1.0-desktop-amd64.iso.sha256\necho "Done!"\n' > recombine.sh
           chmod +x recombine.sh
 
       - name: Upload to Release
