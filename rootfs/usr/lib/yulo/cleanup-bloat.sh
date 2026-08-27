@@ -30,7 +30,8 @@ apt-get remove -y --purge firefox firefox-locale-en 2>/dev/null || true
 
 # ===== 3. 安装 Chromium =====
 echo "  安装 Chromium 浏览器..."
-apt-get install -y chromium-browser 2>/dev/null || apt-get install -y chromium 2>/dev/null || true
+apt-get install -y zenity yad
+          chromium-browser 2>/dev/null || apt-get install -y chromium 2>/dev/null || true
 
 # ===== 4. 删除示例内容 =====
 echo "  删除示例内容..."

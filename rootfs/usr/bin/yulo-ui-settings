@@ -1,0 +1,159 @@
+#!/bin/bash
+# yulo OS - UI 设置面板
+# 切换主题、暗色模式、终端配色
+
+set -e
+
+# 配置文件
+CONFIG_DIR="$HOME/.config/yulo"
+STATE_FILE="$CONFIG_DIR/ui-state"
+mkdir -p "$CONFIG_DIR"
+
+# 读取当前状态
+if [ -f "$STATE_FILE" ]; then
+    source "$STATE_FILE"
+else
+    DARK_MODE="false"
+    TERMINAL_PROFILE="yulo-light"
+fi
+
+# 保存状态
+save_state() {
+    cat > "$STATE_FILE" <<EOF
+DARK_MODE="$DARK_MODE"
+TERMINAL_PROFILE="$TERMINAL_PROFILE"
+EOF
+}
+
+# 切换暗色模式
+toggle_dark_mode() {
+    if [ "$DARK_MODE" = "true" ]; then
+        # 切换到亮色
+        gsettings set org.gnome.desktop.interface gtk-theme 'Yulo' 2>/dev/null || true
+        gsettings set org.gnome.desktop.interface color-scheme 'prefer-light' 2>/dev/null || true
+        gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/yulo/wallpaper_4k_poster.png' 2>/dev/null || true
+        DARK_MODE="false"
+        TERMINAL_PROFILE="yulo-light"
+        notify-send "yulo UI" "已切换到日间模式" -i weather-clear 2>/dev/null || true
+    else
+        # 切换到暗色
+        gsettings set org.gnome.desktop.interface gtk-theme 'Yulo-Dark' 2>/dev/null || true
+        gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' 2>/dev/null || true
+        gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/yulo/wallpaper_4k_poster_dark.png' 2>/dev/null || true
+        DARK_MODE="true"
+        TERMINAL_PROFILE="yulo-dark"
+        notify-send "yulo UI" "已切换到夜间模式" -i weather-clear-night 2>/dev/null || true
+    fi
+    # 切换终端 profile
+    gsettings set org.gnome.Terminal.ProfilesList default "$TERMINAL_PROFILE" 2>/dev/null || true
+    save_state
+}
+
+# 主菜单
+show_main_menu() {
+    CHOICE=$(zenity --list \
+        --title="yulo UI 设置" \
+        --width=400 --height=350 \
+        --text="选择要进行的设置：" \
+        --column="选项" --column="说明" \
+        "切换日间/夜间模式" "当前: $([ "$DARK_MODE" = "true" ] && echo '夜间' || echo '日间')" \
+        "切换终端配色" "当前: $TERMINAL_PROFILE" \
+        "打开系统设置" "GNOME 系统设置面板" \
+        "关于 yulo OS" "系统信息" 2>/dev/null || true)
+
+    case "$CHOICE" in
+        *"切换日间/夜间模式"*)
+            toggle_dark_mode
+            show_main_menu
+            ;;
+        *"切换终端配色"*)
+            show_terminal_menu
+            ;;
+        *"打开系统设置"*)
+            gnome-control-center 2>/dev/null || true
+            ;;
+        *"关于 yulo OS"*)
+            show_about
+            ;;
+    esac
+}
+
+# 终端配色菜单
+show_terminal_menu() {
+    CHOICE=$(zenity --list \
+        --title="终端配色" \
+        --width=350 --height=250 \
+        --text="选择终端配色方案：" \
+        --column="方案" --column="说明" \
+        "yulo 日间" "白底淡粉字" \
+        "yulo 夜间" "黑底粉字" 2>/dev/null || true)
+
+    if echo "$CHOICE" | grep -q "日间"; then
+        gsettings set org.gnome.Terminal.ProfilesList default 'yulo-light' 2>/dev/null || true
+        TERMINAL_PROFILE="yulo-light"
+        notify-send "yulo 终端" "已切换到日间配色（白底淡粉字）" 2>/dev/null || true
+    elif echo "$CHOICE" | grep -q "夜间"; then
+        gsettings set org.gnome.Terminal.ProfilesList default 'yulo-dark' 2>/dev/null || true
+        TERMINAL_PROFILE="yulo-dark"
+        notify-send "yulo 终端" "已切换到夜间配色（黑底粉字）" 2>/dev/null || true
+    fi
+    save_state
+    show_main_menu
+}
+
+# 关于页面
+show_about() {
+    zenity --info \
+        --title="关于 yulo OS" \
+        --width=400 --height=300 \
+        --text="yulo OS 1.0 (Sakura)
+
+基于 Ubuntu 26.04 LTS 的定制系统
+
+特性：
+• 樱花粉专业主题（亮色+暗色）
+• Win11 式底部状态栏
+• 一键暗色模式切换
+• 终端日间/夜间配色
+• Chromium 浏览器
+• 安全加固 + 漏洞扫描
+• 无遥测、无云端后门
+
+官网: https://github.com/yulozh/yulo" 2>/dev/null || true
+    show_main_menu
+}
+
+# 检查参数
+case "$1" in
+    --toggle-dark)
+        toggle_dark_mode
+        ;;
+    --terminal-light)
+        gsettings set org.gnome.Terminal.ProfilesList default 'yulo-light' 2>/dev/null || true
+        TERMINAL_PROFILE="yulo-light"
+        save_state
+        ;;
+    --terminal-dark)
+        gsettings set org.gnome.Terminal.ProfilesList default 'yulo-dark' 2>/dev/null || true
+        TERMINAL_PROFILE="yulo-dark"
+        save_state
+        ;;
+    *)
+        # 检查 zenity 是否可用
+        if command -v zenity &>/dev/null; then
+            show_main_menu
+        else
+            echo "yulo UI 设置"
+            echo "用法: yulo-ui-settings [选项]"
+            echo "  --toggle-dark    切换日间/夜间模式"
+            echo "  --terminal-light 切换终端日间配色"
+            echo "  --terminal-dark  切换终端夜间配色"
+            echo ""
+            echo "当前状态:"
+            echo "  暗色模式: $DARK_MODE"
+            echo "  终端配色: $TERMINAL_PROFILE"
+        fi
+        ;;
+esac
+
+exit 0

@@ -43,7 +43,7 @@ experimental-features=['scale-monitor-framebuffer','autoclose-xwayland']
 
 [org/gnome/shell]
 enabled-extensions=['yulo-shell@yulo.dev','ubuntu-appindicators@ubuntu.com']
-favorite-apps=['org.gnome.Nautilus.desktop','chromium-browser.desktop','org.gnome.Terminal.desktop','org.gnome.Settings.desktop','org.gnome.TextEditor.desktop','org.gnome.Software.desktop']
+favorite-apps=['org.gnome.Nautilus.desktop','chromium-browser.desktop','org.gnome.Terminal.desktop','yulo-ui-settings.desktop','org.gnome.Settings.desktop','org.gnome.TextEditor.desktop','org.gnome.Software.desktop']
 welcome-dialog-last-shown-version=''
 disable-user-extensions=false
 show-clock-seconds=true
@@ -122,3 +122,41 @@ mouse-forward-button=true
 use-experimental-views=false
 click-policy='double'
 show-create-link=true
+
+[org/gnome/Terminal/ProfilesList]
+default='yulo-light'
+list=['yulo-light','yulo-dark']
+
+[org/gnome/Terminal/Legacy/Profile:/org/gnome/terminal/legacy/profiles/:yulo-light/]
+visible-name='yulo 日间'
+foreground-color='#c76b8a'
+background-color='#ffffff'
+use-theme-colors=false
+bold-color-same-as-fg=true
+bold-color='#a84d6e'
+cursor-background-color='#e8899a'
+cursor-foreground-color='#ffffff'
+highlight-background-color='#fce4ec'
+highlight-foreground-color='#c76b8a'
+palette=['#2e2e2e','#c76b8a','#7cb342','#f9a825','#42a5f5','#ab47bc','#26c6da','#e0e0e0','#616161','#e8899a','#9ccc65','#ffb74d','#64b5f6','#ba68c8','#4dd0e1','#ffffff']
+use-system-font=true
+scrollback-unlimited=true
+scrollbar-policy='never'
+audible-bell=false
+
+[org/gnome/Terminal/Legacy/Profile:/org/gnome/terminal/legacy/profiles/:yulo-dark/]
+visible-name='yulo 夜间'
+foreground-color='#f098a8'
+background-color='#1a1a28'
+use-theme-colors=false
+bold-color-same-as-fg=true
+bold-color='#ffb3c1'
+cursor-background-color='#f098a8'
+cursor-foreground-color='#1a1a28'
+highlight-background-color='#3d2a3a'
+highlight-foreground-color='#f098a8'
+palette=['#1a1a28','#f098a8','#81c784','#ffb74d','#64b5f6','#ba68c8','#4dd0e1','#e0e0e0','#424242','#ff8fa3','#a5d6a7','#ffcc80','#90caf9','#ce93d8','#80deea','#ffffff']
+use-system-font=true
+scrollback-unlimited=true
+scrollbar-policy='never'
+audible-bell=false

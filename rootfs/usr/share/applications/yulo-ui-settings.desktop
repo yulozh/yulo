@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=yulo UI 设置
+Name[en]=yulo UI Settings
+Comment=切换主题、暗色模式、终端配色
+Comment[en]=Toggle theme, dark mode, terminal colors
+Exec=yulo-ui-settings
+Icon=preferences-desktop
+Terminal=false
+Categories=Settings;DesktopSettings;
+StartupNotify=false
