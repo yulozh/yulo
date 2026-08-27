@@ -1,0 +1,69 @@
+#!/bin/bash
+# yulo OS - 系统信息工具
+# 快速查看系统信息，小白也能看懂
+
+echo "========================================="
+echo "       yulo OS 系统信息"
+echo "========================================="
+echo ""
+
+# 系统版本
+echo "【系统】"
+echo "  系统: yulo OS 1.0 (Sakura)"
+echo "  基础: Ubuntu 26.04 LTS"
+echo "  架构: $(uname -m)"
+echo "  内核: $(uname -r)"
+echo "  主机名: $(hostname)"
+echo ""
+
+# 运行时间
+echo "【运行时间】"
+echo "  已运行: $(uptime -p 2>/dev/null || uptime | awk -F'up ' '{print $2}' | awk -F',' '{print $1}')"
+echo ""
+
+# CPU
+echo "【CPU】"
+CPU_MODEL=$(grep "model name" /proc/cpuinfo 2>/dev/null | head -1 | cut -d: -f2 | xargs)
+CPU_CORES=$(nproc 2>/dev/null || echo "?")
+echo "  型号: ${CPU_MODEL:-未知}"
+echo "  核心: $CPU_CORES 核"
+echo ""
+
+# 内存
+echo "【内存】"
+MEM_TOTAL=$(free -h 2>/dev/null | awk '/Mem:/ {print $2}')
+MEM_USED=$(free -h 2>/dev/null | awk '/Mem:/ {print $3}')
+MEM_AVAIL=$(free -h 2>/dev/null | awk '/Mem:/ {print $7}')
+echo "  总计: ${MEM_TOTAL:-?}"
+echo "  已用: ${MEM_USED:-?}"
+echo "  可用: ${MEM_AVAIL:-?}"
+echo ""
+
+# 磁盘
+echo "【磁盘】"
+df -h / 2>/dev/null | tail -1 | while read -r FS SIZE USED AVAIL USEP MOUNT; do
+    echo "  总计: $SIZE"
+    echo "  已用: $USED ($USEP)"
+    echo "  可用: $AVAIL"
+done
+echo ""
+
+# 网络
+echo "【网络】"
+IP_ADDR=$(hostname -I 2>/dev/null | awk '{print $1}')
+echo "  IP地址: ${IP_ADDR:-未连接}"
+echo ""
+
+# 桌面环境
+echo "【桌面】"
+echo "  环境: GNOME"
+echo "  主题: Yulo (樱花粉)"
+echo "  终端: yulo-light (白底淡粉字)"
+echo ""
+
+echo "========================================="
+echo "  输入 yulo-ui-settings 打开UI设置"
+echo "  输入 yulo-update 进行系统更新"
+echo "========================================="
+
+exit 0

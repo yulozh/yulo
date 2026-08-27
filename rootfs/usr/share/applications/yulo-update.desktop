@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=yulo 系统更新
+Name[en]=yulo System Update
+Comment=更新系统软件包
+Comment[en]=Update system packages
+Exec=yulo-update
+Icon=system-software-update
+Terminal=true
+Categories=System;
+StartupNotify=false
