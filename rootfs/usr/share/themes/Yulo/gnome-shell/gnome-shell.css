@@ -65,7 +65,7 @@ stage {
 .calendar {
     background-color: #ffffff;
     border: 1px solid #ffd6de;
-    border-radius: 9px;
+    border-radius: 7px;
     padding: 8px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
@@ -249,7 +249,7 @@ stage {
 #searchEntry {
     background-color: rgba(255, 255, 255, 0.9);
     border: 2px solid #ffd6de;
-    border-radius: 14px;
+    border-radius: 10px;
     padding: 10px 20px;
     color: #2d2d2d;
     font-size: 1.1em;
@@ -327,13 +327,13 @@ stage {
 .app-well-app.app-folder {
     background-color: rgba(255, 255, 255, 0.8);
     border: 1px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 8px;
 }
 
 .app-folder-dialog {
     background-color: #ffffff;
     border: 1px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 8px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
@@ -390,7 +390,7 @@ stage {
 #dash {
     background-color: rgba(255, 255, 255, 0.9);
     border: 1px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 8px;
     spacing: 6px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -430,7 +430,7 @@ stage {
 .osd-window {
     background-color: rgba(255, 255, 255, 0.95);
     border: 1px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 20px 28px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
@@ -468,7 +468,7 @@ stage {
 .modal-dialog {
     background-color: #ffffff;
     border: 1px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 8px;
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
     padding: 24px;
 }
@@ -517,7 +517,7 @@ stage {
 .run-dialog {
     background-color: #ffffff;
     border: 1px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 8px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
     padding: 20px;
 }
@@ -544,7 +544,7 @@ stage {
 .end-session-dialog {
     background-color: #ffffff;
     border: 1px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 8px;
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
 }
 
@@ -566,7 +566,7 @@ stage {
 #unlockDialog {
     background-color: rgba(255, 255, 255, 0.95);
     border: 1px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 8px;
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
 }
 
@@ -599,7 +599,7 @@ stage {
 .switcher-popup {
     background-color: rgba(255, 255, 255, 0.95);
     border: 1px solid #ffd6de;
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 16px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
