@@ -172,11 +172,20 @@ jobs:
 
       - name: Package ARM64 rootfs
         run: |
+          set -e
+          echo "=== 磁盘空间 ==="
+          df -h /
+          echo "=== rootfs 大小 ==="
+          sudo du -sh /mnt/arm64-rootfs
+          OUTPUT_DIR="${{ github.workspace }}/output"
+          mkdir -p "$OUTPUT_DIR"
           cd /mnt
-          sudo tar -cJf /home/user/yulo-1.0-arm64-rootfs.tar.xz -C arm64-rootfs .
-          ls -lh /home/user/yulo-1.0-arm64-rootfs.tar.xz
-          sha256sum /home/user/yulo-1.0-arm64-rootfs.tar.xz > /home/user/yulo-1.0-arm64-rootfs.tar.xz.sha256
-          cat /home/user/yulo-1.0-arm64-rootfs.tar.xz.sha256
+          sudo tar -cJf "$OUTPUT_DIR/yulo-1.0-arm64-rootfs.tar.xz" -C arm64-rootfs .
+          echo "打包完成"
+          ls -lh "$OUTPUT_DIR/yulo-1.0-arm64-rootfs.tar.xz"
+          sha256sum "$OUTPUT_DIR/yulo-1.0-arm64-rootfs.tar.xz" > "$OUTPUT_DIR/yulo-1.0-arm64-rootfs.tar.xz.sha256"
+          cat "$OUTPUT_DIR/yulo-1.0-arm64-rootfs.tar.xz.sha256"
+          echo "OUTPUT_DIR=$OUTPUT_DIR" >> $GITHUB_ENV
 
       - name: Upload ARM64 rootfs to Release
         uses: softprops/action-gh-release@v2
@@ -215,7 +224,7 @@ jobs:
             - Fcitx5 中文输入法
             - 安全加固
           files: |
-            /home/user/yulo-1.0-arm64-rootfs.tar.xz
-            /home/user/yulo-1.0-arm64-rootfs.tar.xz.sha256
+            ${{ github.workspace }}/output/yulo-1.0-arm64-rootfs.tar.xz
+            ${{ github.workspace }}/output/yulo-1.0-arm64-rootfs.tar.xz.sha256
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
