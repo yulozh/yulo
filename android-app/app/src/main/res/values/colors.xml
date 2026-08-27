@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="yulo_pink">#E8899A</color>
+    <color name="yulo_pink_dark">#D47083</color>
+    <color name="yulo_pink_light">#FCEEF0</color>
+    <color name="yulo_bg">#FFF5F7</color>
+    <color name="yulo_dark_bg">#1A1A28</color>
+    <color name="yulo_text">#2C2C2E</color>
+    <color name="yulo_text_dim">#6E6E73</color>
+    <color name="yulo_white">#FFFFFF</color>
+    <color name="yulo_black">#000000</color>
+    <color name="yulo_red">#FF6B6B</color>
+    <color name="yulo_green">#34C759</color>
+    <color name="yulo_blue">#007AFF</color>
+</resources>

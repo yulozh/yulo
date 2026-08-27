@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">yulo OS</string>
+    <string name="settings">设置</string>
+
+    <string-array name="resolution_entries">
+        <item>720 x 1280 (流畅)</item>
+        <item>1080 x 1920 (推荐)</item>
+        <item>1440 x 2560 (高清)</item>
+        <item>2160 x 3840 (4K)</item>
+    </string-array>
+
+    <string-array name="resolution_values">
+        <item>720x1280</item>
+        <item>1080x1920</item>
+        <item>1440x2560</item>
+        <item>2160x3840</item>
+    </string-array>
+
+    <string-array name="performance_entries">
+        <item>省电模式</item>
+        <item>平衡模式</item>
+        <item>性能模式</item>
+    </string-array>
+
+    <string-array name="performance_values">
+        <item>powersave</item>
+        <item>balanced</item>
+        <item>performance</item>
+    </string-array>
+</resources>

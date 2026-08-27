@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.YuloOS" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/yulo_pink</item>
+        <item name="colorPrimaryDark">@color/yulo_pink_dark</item>
+        <item name="colorAccent">@color/yulo_pink</item>
+        <item name="android:windowBackground">@color/yulo_bg</item>
+        <item name="android:textColorPrimary">@color/yulo_text</item>
+        <item name="android:textColorSecondary">@color/yulo_text_dim</item>
+        <item name="android:statusBarColor">@color/yulo_pink_dark</item>
+        <item name="android:navigationBarColor">@color/yulo_white</item>
+    </style>
+</resources>

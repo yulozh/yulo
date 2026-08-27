@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="显示设置">
+        <ListPreference
+            android:key="resolution"
+            android:title="屏幕分辨率"
+            android:summary="选择 yulo OS 显示分辨率"
+            android:defaultValue="1080x1920"
+            android:entries="@array/resolution_entries"
+            android:entryValues="@array/resolution_values" />
+
+        <ListPreference
+            android:key="performance_mode"
+            android:title="性能模式"
+            android:summary="平衡性能和电量"
+            android:defaultValue="balanced"
+            android:entries="@array/performance_entries"
+            android:entryValues="@array/performance_values" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="触摸设置">
+        <SwitchPreference
+            android:key="three_finger_gesture"
+            android:title="三指手势"
+            android:summary="启用三指上滑/下滑/左右滑手势"
+            android:defaultValue="true" />
+
+        <SwitchPreference
+            android:key="long_press_right_click"
+            android:title="长按右键"
+            android:summary="单指长按模拟鼠标右键"
+            android:defaultValue="true" />
+
+        <SwitchPreference
+            android:key="vibration_feedback"
+            android:title="震动反馈"
+            android:summary="点击和长按时震动反馈"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="系统">
+        <Preference
+            android:key="clear_data"
+            android:title="清除系统数据"
+            android:summary="删除 yulo OS rootfs，需要重新下载" />
+
+        <Preference
+            android:key="about"
+            android:title="关于 yulo OS"
+            android:summary="版本信息" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

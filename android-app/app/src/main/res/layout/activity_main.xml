@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF5F7"
+    tools:context=".MainActivity">
+
+    <!-- Logo 和标题 -->
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingTop="48dp"
+        android:paddingBottom="24dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/ic_yulo_logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="yulo OS"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="#E8899A"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="樱花粉 Linux 系统"
+            android:textSize="14sp"
+            android:textColor="#888888"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <!-- 状态显示 -->
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="yulo OS 未运行"
+        android:textSize="16sp"
+        android:textColor="#666666"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- 进度条 -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:max="100"
+        app:layout_constraintTop_toBottomOf="@id/tv_status"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp" />
+
+    <!-- 按钮区域 -->
+    <LinearLayout
+        android:id="@+id/button_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp"
+        app:layout_constraintTop_toBottomOf="@id/progressBar"
+        app:layout_constraintBottom_toTopOf="@id/bottom_buttons">
+
+        <Button
+            android:id="@+id/btn_download"
+            android:layout_width="280dp"
+            android:layout_height="56dp"
+            android:text="下载 yulo OS"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#E8899A"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btn_start"
+            android:layout_width="280dp"
+            android:layout_height="56dp"
+            android:text="启动 yulo OS"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#E8899A"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btn_stop"
+            android:layout_width="280dp"
+            android:layout_height="56dp"
+            android:text="停止 yulo OS"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#FF6B6B"
+            android:visibility="gone"
+            android:layout_marginBottom="12dp" />
+    </LinearLayout>
+
+    <!-- 底部按钮 -->
+    <LinearLayout
+        android:id="@+id/bottom_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/btn_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="设置"
+            android:textSize="14sp"
+            android:textColor="#E8899A"
+            android:backgroundTint="#FFFFFF"
+            android:layout_marginEnd="16dp" />
+
+        <Button
+            android:id="@+id/btn_help"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="帮助"
+            android:textSize="14sp"
+            android:textColor="#E8899A"
+            android:backgroundTint="#FFFFFF" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
