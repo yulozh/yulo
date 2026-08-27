@@ -152,18 +152,23 @@ jobs:
 
       - name: Clean up and unmount
         run: |
-          sudo umount /mnt/arm64-rootfs/proc 2>/dev/null || true
-          sudo umount /mnt/arm64-rootfs/sys 2>/dev/null || true
-          sudo umount /mnt/arm64-rootfs/dev 2>/dev/null || true
-          sudo rm -f /mnt/arm64-rootfs/usr/bin/qemu-aarch64-static
-          sudo rm -f /mnt/arm64-rootfs/etc/resolv.conf
+          set +e
+          # Lazy unmount in case device is busy
+          sudo umount -l /mnt/arm64-rootfs/proc 2>/dev/null
+          sudo umount -l /mnt/arm64-rootfs/sys 2>/dev/null
+          sudo umount -l /mnt/arm64-rootfs/dev 2>/dev/null
+          sleep 2
+          # Remove QEMU binary and temp files
+          sudo rm -f /mnt/arm64-rootfs/usr/bin/qemu-aarch64-static 2>/dev/null
+          sudo rm -f /mnt/arm64-rootfs/etc/resolv.conf 2>/dev/null
           # Clean apt cache
-          sudo rm -rf /mnt/arm64-rootfs/var/cache/apt/archives/*.deb
-          sudo rm -rf /mnt/arm64-rootfs/var/lib/apt/lists/*
-          sudo rm -rf /mnt/arm64-rootfs/tmp/*
+          sudo rm -rf /mnt/arm64-rootfs/var/cache/apt/archives/*.deb 2>/dev/null
+          sudo rm -rf /mnt/arm64-rootfs/var/lib/apt/lists/* 2>/dev/null
+          sudo rm -rf /mnt/arm64-rootfs/tmp/* 2>/dev/null
           echo "Cleanup done"
           df -h /
-          du -sh /mnt/arm64-rootfs
+          sudo du -sh /mnt/arm64-rootfs 2>/dev/null || echo "du skipped"
+          set -e
 
       - name: Package ARM64 rootfs
         run: |
