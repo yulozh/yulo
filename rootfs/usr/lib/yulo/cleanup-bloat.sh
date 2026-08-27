@@ -28,10 +28,37 @@ apt-get remove -y --purge \
 # 删除 Firefox（用 Chromium 替代）
 apt-get remove -y --purge firefox firefox-locale-en 2>/dev/null || true
 
-# ===== 3. 安装 Chromium =====
-echo "  安装 Chromium 浏览器..."
-apt-get install -y zenity yad
-          chromium-browser 2>/dev/null || apt-get install -y chromium 2>/dev/null || true
+# ===== 3. 安装 Chromium 和基础工具 =====
+echo "  安装 Chromium 浏览器和基础工具..."
+apt-get install -y zenity yad chromium-browser 2>/dev/null || apt-get install -y zenity yad chromium 2>/dev/null || true
+
+# ===== 3.5 安装开发工具 =====
+echo "  安装开发工具..."
+apt-get install -y --no-install-recommends \
+    git \
+    curl \
+    wget \
+    build-essential \
+    python3 \
+    python3-pip \
+    python3-venv \
+    nodejs \
+    npm \
+    vim \
+    nano \
+    htop \
+    net-tools \
+    iputils-ping \
+    dnsutils \
+    zip \
+    unzip \
+    tar \
+    gzip \
+    2>/dev/null || true
+
+# 配置 git 默认设置
+git config --system init.defaultBranch main 2>/dev/null || true
+git config --system core.autocrlf input 2>/dev/null || true
 
 # ===== 4. 删除示例内容 =====
 echo "  删除示例内容..."

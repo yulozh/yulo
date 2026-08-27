@@ -104,6 +104,35 @@ echo "[yulo] Setting permissions..."
 chmod -R a+rX /usr/share/themes/Yulo /usr/share/themes/Yulo-Dark /usr/share/icons/Yulo /usr/share/backgrounds/yulo 2>/dev/null || true
 chmod a+r /usr/share/pixmaps/yulo-logo.png 2>/dev/null || true
 
+# 9.5 Set default terminal profile
+echo "[yulo] Setting default terminal profile..."
+mkdir -p /etc/dconf/db/local.d
+cat > /etc/dconf/db/local.d/02-terminal <<'TERMCONF'
+[org/gnome/Terminal/ProfilesList]
+default='yulo-light'
+list=['yulo-light','yulo-dark']
+TERMCONF
+dconf update 2>/dev/null || true
+
+# 9.6 Configure input method (Fcitx5)
+echo "[yulo] Configuring input method..."
+mkdir -p /etc/environment.d
+cat > /etc/environment.d/99-yulo-input.conf <<'IMCONF'
+GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx
+SDL_IM_MODULE=fcitx
+IMCONF
+if command -v im-config &>/dev/null; then
+    im-config -n fcitx5 2>/dev/null || true
+fi
+
+# 9.7 Set timezone and locale
+echo "[yulo] Setting timezone and locale..."
+timedatectl set-timezone Asia/Shanghai 2>/dev/null || true
+locale-gen zh_CN.UTF-8 en_US.UTF-8 2>/dev/null || true
+update-locale LANG=zh_CN.UTF-8 2>/dev/null || true
+
 # 10. Mark as done
 touch "$MARKER"
 echo "[yulo] First-boot setup complete."
