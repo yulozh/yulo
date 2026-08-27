@@ -1,0 +1,64 @@
+#!/bin/bash
+# yulo OS - 系统清理工具
+# 简单易用的系统清理，小白也能看懂
+
+set -e
+
+echo "========================================="
+echo "       yulo OS 系统清理"
+echo "========================================="
+echo ""
+
+# 检查是否为 root
+if [ "$EUID" -ne 0 ]; then
+    echo "需要管理员权限，正在请求 sudo..."
+    exec sudo "$0" "$@"
+fi
+
+echo "【1/6】清理 apt 缓存..."
+apt-get clean
+apt-get autoclean -y
+echo "  ✓ apt 缓存已清理"
+
+echo ""
+echo "【2/6】删除无用依赖..."
+apt-get autoremove -y
+echo "  ✓ 无用依赖已删除"
+
+echo ""
+echo "【3/6】清理临时文件..."
+rm -rf /tmp/* 2>/dev/null || true
+rm -rf /var/tmp/* 2>/dev/null || true
+echo "  ✓ 临时文件已清理"
+
+echo ""
+echo "【4/6】清理日志文件..."
+find /var/log -type f -name "*.gz" -delete 2>/dev/null || true
+find /var/log -type f -name "*.old" -delete 2>/dev/null || true
+find /var/log -type f -name "*.[0-9]" -delete 2>/dev/null || true
+# 截断大日志文件
+find /var/log -type f -size +10M -exec truncate -s 0 {} \; 2>/dev/null || true
+echo "  ✓ 日志文件已清理"
+
+echo ""
+echo "【5/6】清理缩略图缓存..."
+rm -rf /home/*/.cache/thumbnails/* 2>/dev/null || true
+rm -rf /root/.cache/thumbnails/* 2>/dev/null || true
+echo "  ✓ 缩略图缓存已清理"
+
+echo ""
+echo "【6/6】清理用户缓存..."
+rm -rf /home/*/.cache/* 2>/dev/null || true
+rm -rf /root/.cache/* 2>/dev/null || true
+echo "  ✓ 用户缓存已清理"
+
+echo ""
+echo "========================================="
+echo "  系统清理完成！"
+echo "========================================="
+echo ""
+echo "磁盘使用情况:"
+df -h / | tail -1 | awk '{printf "  总计: %s  已用: %s  可用: %s  使用: %s\n", $2, $3, $4, $5}'
+echo ""
+
+exit 0

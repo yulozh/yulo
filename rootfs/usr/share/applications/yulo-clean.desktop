@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=yulo 系统清理
+Name[en]=yulo System Clean
+Comment=清理系统垃圾文件
+Comment[en]=Clean system junk files
+Exec=yulo-clean
+Icon=user-trash-full
+Terminal=true
+Categories=System;
+StartupNotify=false
